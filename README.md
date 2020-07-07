@@ -1,2 +1,3 @@
 # lumeo-types-rs
-Host repository for all common API crates
+
+This is the host repository for all common API crates.
