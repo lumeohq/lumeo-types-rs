@@ -1,5 +1,5 @@
 [package]
-name = "commands"
+name = "lumeo-commands"
 version = "0.1.0"
 authors = ["Zeeshan Ali <zeeshan@lumeo.com>"]
 edition = "2018"

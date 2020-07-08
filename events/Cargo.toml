@@ -1,5 +1,5 @@
 [package]
-name = "events"
+name = "lumeo-events"
 version = "0.1.0"
 authors = ["Zeeshan Ali <zeeshan@lumeo.com>"]
 edition = "2018"
