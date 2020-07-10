@@ -72,6 +72,7 @@ pub enum NodeProperties {
     Clip(ClipProperties),
     Snapshot(SnapshotProperties),
     StreamRtspOut(StreamRtspOutProperties),
+    #[serde(rename = "stream_webrtc_out")]
     StreamWebRtcOut(StreamWebRtcOutProperties),
     Function(FunctionProperties),
 }
