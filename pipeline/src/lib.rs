@@ -16,7 +16,8 @@ mod tests {
     use url::Url;
 
     use crate::{EncodeProperties, StreamRtspOutProperties, UsbCameraProperties};
-    use crate::{NodeProperties, Pipeline, Resolution};
+    use crate::{Node, NodeProperties, Pipeline, Resolution};
+    use crate::{SinkPad, SourcePad, SourcePads};
 
     #[test]
     fn pipeline_nodes_de() {
@@ -50,20 +51,57 @@ mod tests {
 
         let pipeline: Pipeline = serde_yaml::from_str(yaml).unwrap();
 
+        check_deserialize_pipeline(&pipeline);
+    }
+
+    #[test]
+    fn pipeline_nodes_ser() {
+        let mut pipeline = Pipeline::new();
+
+        // Add USB Camera
+        let mut pads = SourcePads::new();
+        pads.add(SourcePad {
+            name: String::from("video"),
+            sinks: vec![SinkPad {
+                node: String::from("encode1"),
+                name: String::from("input"),
+            }],
+        });
+        pads.add(SourcePad {
+            name: String::from("snapshot"),
+            sinks: vec![],
+        });
+        let node = Node::new("camera1", usb_camera_properties(), Some(pads));
+        pipeline.add_node(node);
+
+        // Add Encoder
+        let mut pads = SourcePads::new();
+        pads.add(SourcePad {
+            name: String::from("output"),
+            sinks: vec![SinkPad {
+                node: String::from("stream_rtsp_out1"),
+                name: String::from("input"),
+            }],
+        });
+        let node = Node::new("encode1", encode_properties(), Some(pads));
+        pipeline.add_node(node);
+
+        // Add RTSP sink
+        let node = Node::new("stream_rtsp_out1", stream_rtsp_out_properties(), None);
+        pipeline.add_node(node);
+
+        let yaml = serde_yaml::to_string(&pipeline).unwrap();
+
+        // Deserialize it back and see if everything is as expected
+        let pipeline: Pipeline = serde_yaml::from_str(&yaml).unwrap();
+        check_deserialize_pipeline(&pipeline);
+    }
+
+    fn check_deserialize_pipeline(pipeline: &Pipeline) {
         // Check usb_camera node
         let node = pipeline.node_by_id("camera1").unwrap();
         assert_eq!(node.id(), "camera1");
-        assert_eq!(
-            node.properties(),
-            &NodeProperties::UsbCamera(UsbCameraProperties {
-                uri: url::Url::from_str("file:///dev/video0").unwrap(),
-                framerate: Some(15),
-                resolution: Some(Resolution {
-                    width: 720,
-                    height: 480
-                })
-            })
-        );
+        assert_eq!(node.properties(), &usb_camera_properties());
         let src_pad = node.source_pads().get("snapshot").unwrap();
         assert!(src_pad.sinks.is_empty());
         let src_pad = node.source_pads().get("video").unwrap();
@@ -72,29 +110,42 @@ mod tests {
         // Check encode1 node
         let node = pipeline.node_by_id("encode1").unwrap();
         assert_eq!(node.id(), "encode1");
-        assert_eq!(
-            node.properties(),
-            &NodeProperties::Encode(EncodeProperties {
-                codec: "h264".to_string(),
-                max_bitrate: Some(1_500_000),
-                bitrate: None,
-                quality: Some(10),
-                fps: Some(15)
-            }),
-        );
+        assert_eq!(node.properties(), &encode_properties());
         let src_pad = node.source_pads().get("output").unwrap();
         assert_eq!(src_pad.sinks, &["stream_rtsp_out1.input".parse().unwrap()]);
 
         // and finally check the stream_rtsp_out node
         let node = pipeline.node_by_id("stream_rtsp_out1").unwrap();
         assert_eq!(node.id(), "stream_rtsp_out1");
-        assert_eq!(
-            node.properties(),
-            &NodeProperties::StreamRtspOut(StreamRtspOutProperties {
-                uri: Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap(),
-                udp_port: 5800
-            })
-        );
+        assert_eq!(node.properties(), &stream_rtsp_out_properties());
         assert!(node.source_pads().is_empty());
+    }
+
+    fn usb_camera_properties() -> NodeProperties {
+        NodeProperties::UsbCamera(UsbCameraProperties {
+            uri: Url::from_str("file:///dev/video0").unwrap(),
+            framerate: Some(15),
+            resolution: Some(Resolution {
+                width: 720,
+                height: 480,
+            }),
+        })
+    }
+
+    fn encode_properties() -> NodeProperties {
+        NodeProperties::Encode(EncodeProperties {
+            codec: "h264".to_string(),
+            max_bitrate: Some(1_500_000),
+            bitrate: None,
+            quality: Some(10),
+            fps: Some(15),
+        })
+    }
+
+    fn stream_rtsp_out_properties() -> NodeProperties {
+        NodeProperties::StreamRtspOut(StreamRtspOutProperties {
+            uri: Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap(),
+            udp_port: 5800,
+        })
     }
 }
