@@ -1,9 +1,15 @@
 use crate::resolution::Resolution;
+use serde::Serialize;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct UsbCameraProperties {
     pub uri: url::Url,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub resolution: Option<Resolution>,
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "super::serialize_option"
+    )]
     pub framerate: Option<u32>,
 }
 

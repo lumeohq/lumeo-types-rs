@@ -1,19 +1,48 @@
+use serde::Serialize;
 use std::path::PathBuf;
 use url::Url;
 
-#[derive(Default, Debug, Clone, PartialEq)]
+// Ditch all manual Serialize + Deserialize code after changing the properties to specific types.
+// This includes the use of `serialize_with` attribute.
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize)]
 pub struct ClipProperties {
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub path: Option<PathBuf>,
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "super::serialize_option"
+    )]
     pub max_duration_sec: Option<u64>,
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "super::serialize_option"
+    )]
     pub max_size_bytes: Option<u64>,
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "super::serialize_option"
+    )]
     pub max_edge_files: Option<u64>,
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "super::serialize_option"
+    )]
     pub edge_retention_duration: Option<u64>,
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "super::serialize_option"
+    )]
     pub cloud_upload: Option<bool>,
+    #[serde(
+        skip_serializing_if = "Option::is_none",
+        serialize_with = "super::serialize_option"
+    )]
     pub cloud_retention_duration: Option<u64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub webhook_url: Option<Url>,
 }
 
-// We can ditch this manual Deserialize impl. after changing the properties to specific types.
 impl<'de> serde::de::Deserialize<'de> for ClipProperties {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where

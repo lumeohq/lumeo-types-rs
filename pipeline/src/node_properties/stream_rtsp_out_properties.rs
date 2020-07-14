@@ -1,12 +1,16 @@
+use serde::Serialize;
 use url::Url;
 
-#[derive(Debug, Clone, PartialEq)]
+// Ditch all manual Serialize + Deserialize code after changing the properties to specific types.
+// This includes the use of `serialize_with` attribute.
+
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct StreamRtspOutProperties {
     pub uri: Url,
+    #[serde(serialize_with = "super::serialize_required")]
     pub udp_port: u16,
 }
 
-// We can ditch this manual Deserialize impl. after changing the properties to specific types.
 impl<'de> serde::de::Deserialize<'de> for StreamRtspOutProperties {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where

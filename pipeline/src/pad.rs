@@ -3,6 +3,7 @@ use std::str::FromStr;
 
 use serde::de::{Deserialize, Deserializer, MapAccess, Visitor};
 use serde::de::{Error, Unexpected};
+use serde::ser::{Serialize, SerializeMap, Serializer};
 
 #[derive(Default, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct SinkPad {
@@ -58,6 +59,30 @@ impl SourcePads {
 
 // FIXME: Manual Deserialize is complicated. We should change the serialized YAML format so we don't
 // need to do this and just use the derive macro.
+
+impl Serialize for SinkPad {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        format!("{}.{}", self.node, self.name).serialize(serializer)
+    }
+}
+
+impl Serialize for SourcePads {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut map = serializer.serialize_map(None)?;
+        for pad in self.0.values() {
+            map.serialize_entry(&pad.name, &pad.sinks)?;
+        }
+
+        map.end()
+    }
+}
+
 impl<'de> Deserialize<'de> for SourcePads {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
     where
