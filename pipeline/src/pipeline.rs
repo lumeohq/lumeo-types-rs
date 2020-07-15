@@ -19,8 +19,8 @@ impl Pipeline {
         self.nodes.insert(node.id().to_string(), node);
     }
 
-    pub fn nodes(&self) -> Vec<&Node> {
-        self.nodes.values().collect()
+    pub fn nodes(&self) -> impl Iterator<Item = &Node> {
+        self.nodes.values()
     }
 
     pub fn node_by_id(&self, id: &str) -> Option<&Node> {
