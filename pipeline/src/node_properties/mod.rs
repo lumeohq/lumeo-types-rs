@@ -84,6 +84,7 @@ pub use function_properties::FunctionProperties;
 pub enum NodeProperties {
     UsbCamera(UsbCameraProperties),
     CsiCamera(CsiCameraProperties),
+    #[serde(rename = "camera")]
     IpCamera(IpCameraProperties),
     Encode(EncodeProperties),
     Convert(ConvertProperties),
