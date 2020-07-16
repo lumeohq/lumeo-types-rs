@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use serde::de::{Deserialize, Deserializer, Error};
+use serde::ser::{Serialize, SerializeSeq, Serializer};
 
 use crate::Node;
 
@@ -18,12 +19,27 @@ impl Pipeline {
         self.nodes.insert(node.id().to_string(), node);
     }
 
-    pub fn nodes(&self) -> Vec<&Node> {
-        self.nodes.values().collect()
+    pub fn nodes(&self) -> impl Iterator<Item = &Node> {
+        self.nodes.values()
     }
 
     pub fn node_by_id(&self, id: &str) -> Option<&Node> {
         self.nodes.get(id)
+    }
+}
+
+// Manual implemention is needed here as we want to only serialize as series of nodes.
+impl Serialize for Pipeline {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let mut seq = serializer.serialize_seq(Some(self.nodes.len()))?;
+        for node in self.nodes.values() {
+            seq.serialize_element(node)?;
+        }
+
+        seq.end()
     }
 }
 

@@ -1,7 +1,8 @@
 //! This module contains all kinds of Lumeo pipeline nodes
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
+use std::fmt::Display;
 use std::str::FromStr;
 
 // FIXME: These functions will go away once props in TOML are more strictly-typed
@@ -33,6 +34,25 @@ where
     }
 }
 
+fn serialize_option<T, S>(option: &Option<T>, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: serde::ser::Serializer,
+    T: Display,
+{
+    match option {
+        Some(field) => serializer.serialize_some(&field.to_string()),
+        None => serializer.serialize_none(),
+    }
+}
+
+fn serialize_required<T, S>(field: &T, serializer: S) -> Result<S::Ok, S::Error>
+where
+    S: serde::ser::Serializer,
+    T: Display,
+{
+    field.to_string().serialize(serializer)
+}
+
 pub mod encode_properties;
 pub use encode_properties::EncodeProperties;
 pub mod stream_rtsp_out_properties;
@@ -58,12 +78,13 @@ pub use snapshot_properties::SnapshotProperties;
 pub mod function_properties;
 pub use function_properties::FunctionProperties;
 
-#[derive(Clone, Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 #[allow(clippy::large_enum_variant)]
 #[serde(tag = "type", content = "properties", rename_all = "snake_case")]
 pub enum NodeProperties {
     UsbCamera(UsbCameraProperties),
     CsiCamera(CsiCameraProperties),
+    #[serde(rename = "camera")]
     IpCamera(IpCameraProperties),
     Encode(EncodeProperties),
     Convert(ConvertProperties),
