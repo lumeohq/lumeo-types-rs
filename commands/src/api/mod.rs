@@ -1,6 +1,3 @@
-use std::fmt::{Display, Formatter};
-use std::str::FromStr;
-
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use uuid::Uuid;
@@ -37,14 +34,6 @@ pub enum Body {
     WebRtc(webrtc::Request),
 }
 
-impl FromStr for Request {
-    type Err = Error;
-
-    fn from_str(s: &str) -> Result<Self, Error> {
-        serde_json::from_str(s).map_err(|_| Error::DeserializeCommand)
-    }
-}
-
 impl Request {
     /// Create new notification
     pub fn notification(body: Body) -> Self {
@@ -60,12 +49,5 @@ impl Request {
             body,
             respond_to: Some(format!("resp/{}", Uuid::new_v4())),
         }
-    }
-}
-
-impl Display for Request {
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result<(), std::fmt::Error> {
-        let s = serde_json::to_string(self).map_err(|_| std::fmt::Error)?;
-        f.write_str(s.as_str())
     }
 }
