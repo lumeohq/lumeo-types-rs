@@ -1,7 +1,10 @@
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
+use serde::{Deserialize, Serialize};
+
+pub mod camera;
+pub mod deployment;
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub enum Event {
+    Deployment(deployment::Event),
+    Camera(camera::Event),
 }
