@@ -28,6 +28,10 @@ impl Node {
         &self.props
     }
 
+    pub fn properties_mut(&mut self) -> &mut NodeProperties {
+        &mut self.props
+    }
+
     pub fn source_pads(&self) -> &SourcePads {
         &self.source_pads
     }

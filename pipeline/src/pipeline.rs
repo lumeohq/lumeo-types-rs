@@ -23,6 +23,10 @@ impl Pipeline {
         self.nodes.values()
     }
 
+    pub fn nodes_mut(&mut self) -> impl Iterator<Item = &mut Node> {
+        self.nodes.values_mut()
+    }
+
     pub fn node_by_id(&self, id: &str) -> Option<&Node> {
         self.nodes.get(id)
     }
