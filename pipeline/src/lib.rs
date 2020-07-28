@@ -15,7 +15,9 @@ mod tests {
     use std::str::FromStr;
     use url::Url;
 
-    use crate::{EncodeProperties, StreamRtspOutProperties, UsbCameraProperties};
+    use crate::{
+        EncodeProperties, StreamRtspOutProperties, StreamRtspOutRuntime, UsbCameraProperties,
+    };
     use crate::{Node, NodeProperties, Pipeline, Resolution};
     use crate::{SinkPad, SourcePad, SourcePads};
 
@@ -46,7 +48,7 @@ mod tests {
   id: stream_rtsp_out1
   properties:
     uri: rtsp://127.0.0.1:5555/mycamera
-    udp_port: '5800'
+    udp_port: 5800
   wires: {}"#;
 
         let pipeline: Pipeline = serde_yaml::from_str(yaml).unwrap();
@@ -144,8 +146,10 @@ mod tests {
 
     fn stream_rtsp_out_properties() -> NodeProperties {
         NodeProperties::StreamRtspOut(StreamRtspOutProperties {
-            uri: Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap(),
-            udp_port: 5800,
+            runtime: StreamRtspOutRuntime {
+                uri: Some(Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap()),
+                udp_port: Some(5800),
+            },
         })
     }
 }
