@@ -9,11 +9,11 @@ pub use stream_rtsp_out_properties::{StreamRtspOutProperties, StreamRtspOutRunti
 pub mod stream_web_rtc_out_properties;
 pub use stream_web_rtc_out_properties::{StreamWebRtcOutProperties, StreamWebRtcOutRuntime};
 pub mod csi_camera_properties;
-pub use csi_camera_properties::CsiCameraProperties;
+pub use csi_camera_properties::{CsiCameraProperties, CsiCameraRuntime};
 pub mod usb_camera_properties;
-pub use usb_camera_properties::UsbCameraProperties;
+pub use usb_camera_properties::{UsbCameraProperties, UsbCameraRuntime};
 pub mod ip_camera_properties;
-pub use ip_camera_properties::IpCameraProperties;
+pub use ip_camera_properties::{IpCameraProperties, IpCameraRuntime};
 pub mod convert_properties;
 pub use convert_properties::ConvertProperties;
 pub mod model_inference_properties;

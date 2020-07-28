@@ -131,6 +131,7 @@ mod tests {
                 width: 720,
                 height: 480,
             }),
+            runtime: Default::default(),
         })
     }
 
@@ -149,6 +150,7 @@ mod tests {
             runtime: StreamRtspOutRuntime {
                 uri: Some(Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap()),
                 udp_port: Some(5800),
+                stream_id: None,
             },
         })
     }

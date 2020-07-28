@@ -23,4 +23,11 @@ pub struct StreamRtspOutRuntime {
     /// Since pipeline can have multiple RTSP output streams we need to
     /// distribute ports at `lumeod` level.
     pub udp_port: Option<u16>,
+
+    /// Stream ID.
+    ///
+    /// This field is set to `Some` by API server.
+    ///
+    /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
+    pub stream_id: Option<String>,
 }
