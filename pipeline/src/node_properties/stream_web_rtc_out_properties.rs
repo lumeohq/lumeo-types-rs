@@ -1,25 +1,36 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use url::Url;
 
-// Ditch all manual Serialize + Deserialize code after changing the properties to specific types.
-// This includes the use of `serialize_with` attribute.
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct StreamWebRtcOutProperties {
-    pub uri: Url,
-    #[serde(serialize_with = "super::serialize_required")]
-    pub udp_port: u16,
+    #[serde(flatten)]
+    pub runtime: StreamWebRtcOutRuntime,
 }
 
-impl<'de> serde::de::Deserialize<'de> for StreamWebRtcOutProperties {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::de::Deserializer<'de>,
-    {
-        let props = <std::collections::HashMap<String, String>>::deserialize(deserializer)?;
-        Ok(StreamWebRtcOutProperties {
-            uri: super::get_required(&props, "uri")?,
-            udp_port: super::get_required(&props, "udp_port")?,
-        })
-    }
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct StreamWebRtcOutRuntime {
+    /// RTSP stream URI.
+    ///
+    /// This field is set to `Some` by `lumeod`.
+    ///
+    /// WebRTC is essentially the same thing as RTSP for lumeo-gst because
+    /// conversion RTSP->WebRTC is made with a separate service.
+    // TODO: this should be set by API server, more details here:
+    //       https://app.clubhouse.io/lumeo/story/940/set-correct-stream-url-for-pipeline-streams-created-for-webrtc-nodes
+    pub uri: Option<Url>,
+
+    /// UDP port for `udpsink` element.
+    ///
+    /// This field is set to `Some` by `lumeod`.
+    ///
+    /// Since pipeline can have multiple RTSP output streams we need to
+    /// distribute ports at `lumeod` level.
+    pub udp_port: Option<u16>,
+
+    /// Stream ID.
+    ///
+    /// This field is set to `Some` by API server.
+    ///
+    /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
+    pub stream_id: Option<String>,
 }

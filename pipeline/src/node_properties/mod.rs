@@ -45,20 +45,12 @@ where
     }
 }
 
-fn serialize_required<T, S>(field: &T, serializer: S) -> Result<S::Ok, S::Error>
-where
-    S: serde::ser::Serializer,
-    T: Display,
-{
-    field.to_string().serialize(serializer)
-}
-
 pub mod encode_properties;
 pub use encode_properties::EncodeProperties;
 pub mod stream_rtsp_out_properties;
-pub use stream_rtsp_out_properties::StreamRtspOutProperties;
+pub use stream_rtsp_out_properties::{StreamRtspOutProperties, StreamRtspOutRuntime};
 pub mod stream_web_rtc_out_properties;
-pub use stream_web_rtc_out_properties::StreamWebRtcOutProperties;
+pub use stream_web_rtc_out_properties::{StreamWebRtcOutProperties, StreamWebRtcOutRuntime};
 pub mod csi_camera_properties;
 pub use csi_camera_properties::CsiCameraProperties;
 pub mod usb_camera_properties;
@@ -68,7 +60,7 @@ pub use ip_camera_properties::IpCameraProperties;
 pub mod convert_properties;
 pub use convert_properties::ConvertProperties;
 pub mod model_inference_properties;
-pub use model_inference_properties::ModelInferenceProperties;
+pub use model_inference_properties::{ModelInferenceProperties, ModelInferenceRuntime};
 pub mod overlay_properties;
 pub use overlay_properties::OverlayProperties;
 pub mod clip_properties;
@@ -76,7 +68,7 @@ pub use clip_properties::ClipProperties;
 pub mod snapshot_properties;
 pub use snapshot_properties::SnapshotProperties;
 pub mod function_properties;
-pub use function_properties::FunctionProperties;
+pub use function_properties::{FunctionProperties, FunctionRuntime};
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 #[allow(clippy::large_enum_variant)]
