@@ -17,3 +17,5 @@ pub struct IpCameraRuntime {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<String>,
 }
+
+impl_camera_props!(IpCameraProperties, IpCameraRuntime);

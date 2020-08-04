@@ -2,6 +2,9 @@
 
 use serde::{Deserialize, Serialize};
 
+#[macro_use]
+pub mod camera_properties;
+pub use camera_properties::{CameraProperties, CameraRuntime};
 pub mod encode_properties;
 pub use encode_properties::EncodeProperties;
 pub mod stream_rtsp_out_properties;
