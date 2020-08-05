@@ -28,7 +28,7 @@ mod tests {
   properties:
     type: usb_camera
     uri: file:///dev/video0
-    framerate: '15'
+    framerate: 15
     resolution: 720x480
   wires:
     video:
@@ -38,9 +38,9 @@ mod tests {
   properties:
     type: encode
     codec: 'h264'
-    max_bitrate: '1500000'
-    quality: '10'
-    fps: '15'
+    max_bitrate: 1500000
+    quality: 10
+    fps: 15
   wires:
     output:
       - stream_rtsp_out1.input

@@ -1,49 +1,6 @@
 //! This module contains all kinds of Lumeo pipeline nodes
 
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
-use std::fmt::Display;
-use std::str::FromStr;
-
-// FIXME: These functions will go away once props in TOML are more strictly-typed
-fn get_option<T, E>(props: &HashMap<String, String>, key: &str) -> Result<Option<T>, E>
-where
-    T: FromStr,
-    T::Err: ToString,
-    E: serde::de::Error,
-{
-    props
-        .get(key)
-        .filter(|val| !val.is_empty())
-        .map(|val| val.parse::<T>())
-        .transpose()
-        .map_err(|e| serde::de::Error::custom(&e.to_string()))
-}
-
-fn get_required<T, E>(props: &HashMap<String, String>, key: &'static str) -> Result<T, E>
-where
-    T: FromStr,
-    T::Err: ToString,
-    E: serde::de::Error,
-{
-    match props.get(key) {
-        Some(val) => val
-            .parse::<T>()
-            .map_err(|e| serde::de::Error::custom(&e.to_string())),
-        None => Err(serde::de::Error::missing_field(key)),
-    }
-}
-
-fn serialize_option<T, S>(option: &Option<T>, serializer: S) -> Result<S::Ok, S::Error>
-where
-    S: serde::ser::Serializer,
-    T: Display,
-{
-    match option {
-        Some(field) => serializer.serialize_some(&field.to_string()),
-        None => serializer.serialize_none(),
-    }
-}
 
 pub mod encode_properties;
 pub use encode_properties::EncodeProperties;

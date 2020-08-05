@@ -1,31 +1,11 @@
 use crate::resolution::Resolution;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-// Ditch all manual Serialize + Deserialize code after changing the properties to specific types.
-// This includes the use of `serialize_with` attribute.
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct IpCameraProperties {
     pub uri: url::Url,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub resolution: Option<Resolution>,
-    #[serde(
-        skip_serializing_if = "Option::is_none",
-        serialize_with = "super::serialize_option"
-    )]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub framerate: Option<u32>,
-}
-
-impl<'de> serde::de::Deserialize<'de> for IpCameraProperties {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::de::Deserializer<'de>,
-    {
-        let props = <std::collections::HashMap<String, String>>::deserialize(deserializer)?;
-        Ok(IpCameraProperties {
-            uri: super::get_required(&props, "uri")?,
-            resolution: super::get_option(&props, "resolution")?,
-            framerate: super::get_option(&props, "framerate")?,
-        })
-    }
 }
