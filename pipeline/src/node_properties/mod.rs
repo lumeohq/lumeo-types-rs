@@ -72,7 +72,7 @@ pub use function_properties::{FunctionProperties, FunctionRuntime};
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 #[allow(clippy::large_enum_variant)]
-#[serde(tag = "type", content = "properties", rename_all = "snake_case")]
+#[serde(tag = "type", rename_all = "snake_case")]
 pub enum NodeProperties {
     UsbCamera(UsbCameraProperties),
     CsiCamera(CsiCameraProperties),

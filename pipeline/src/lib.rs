@@ -24,9 +24,9 @@ mod tests {
     #[test]
     fn pipeline_nodes_de() {
         let yaml = r#"---
-- type: usb_camera
-  id: camera1
+- id: camera1
   properties:
+    type: usb_camera
     uri: file:///dev/video0
     framerate: '15'
     resolution: 720x480
@@ -34,9 +34,9 @@ mod tests {
     video:
       - encode1.input
     snapshot: []
-- type: encode
-  id: encode1
+- id: encode1
   properties:
+    type: encode
     codec: 'h264'
     max_bitrate: '1500000'
     quality: '10'
@@ -44,9 +44,9 @@ mod tests {
   wires:
     output:
       - stream_rtsp_out1.input
-- type: stream_rtsp_out
-  id: stream_rtsp_out1
+- id: stream_rtsp_out1
   properties:
+    type: stream_rtsp_out
     uri: rtsp://127.0.0.1:5555/mycamera
     udp_port: 5800
   wires: {}"#;
