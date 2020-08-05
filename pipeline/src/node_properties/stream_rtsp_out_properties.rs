@@ -31,3 +31,5 @@ pub struct StreamRtspOutRuntime {
     /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
     pub stream_id: Option<String>,
 }
+
+impl_stream_props!(StreamRtspOutProperties, StreamRtspOutRuntime);
