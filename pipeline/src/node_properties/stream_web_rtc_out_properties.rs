@@ -35,4 +35,4 @@ pub struct StreamWebRtcOutRuntime {
     pub stream_id: Option<String>,
 }
 
-impl_stream_props!(StreamWebRtcOutProperties, StreamWebRtcOutRuntime);
+impl_stream_props!(StreamWebRtcOutProperties, StreamWebRtcOutRuntime, "webrtc");

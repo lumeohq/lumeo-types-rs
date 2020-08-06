@@ -32,4 +32,4 @@ pub struct StreamRtspOutRuntime {
     pub stream_id: Option<String>,
 }
 
-impl_stream_props!(StreamRtspOutProperties, StreamRtspOutRuntime);
+impl_stream_props!(StreamRtspOutProperties, StreamRtspOutRuntime, "rtsp");

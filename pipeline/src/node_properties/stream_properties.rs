@@ -1,4 +1,6 @@
 pub trait StreamProperties {
+    /// The stream type, e.g "webrtc", "rtsp" etc
+    const STREAM_TYPE: &'static str;
     type Runtime: StreamRuntime;
 
     fn runtime(&self) -> &Self::Runtime;
@@ -15,8 +17,9 @@ pub trait StreamRuntime {
 }
 
 macro_rules! impl_stream_props {
-    ($stream_type:ty, $runtime: ty) => {
+    ($stream_type:ty, $runtime: ty, $type_str:literal) => {
         impl crate::StreamProperties for $stream_type {
+            const STREAM_TYPE: &'static str = $type_str;
             type Runtime = $runtime;
 
             fn runtime(&self) -> &$runtime {
