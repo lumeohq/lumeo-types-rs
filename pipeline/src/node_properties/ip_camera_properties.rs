@@ -33,3 +33,4 @@ pub struct IpCameraRuntime {
 }
 
 impl_camera_props!(IpCameraProperties, IpCameraRuntime);
+impl_stream_props!(IpCameraProperties, IpCameraRuntime, "camera");
