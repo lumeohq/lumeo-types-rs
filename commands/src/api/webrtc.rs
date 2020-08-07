@@ -23,6 +23,7 @@ pub struct GetOfferRequest {
 }
 
 /// ICE server entry
+///
 /// Refer to https://developer.mozilla.org/en-US/docs/Web/API/RTCIceServer
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub struct IceServer {
@@ -64,6 +65,7 @@ pub struct SetAnswerRequest {
 pub struct SetAnswerResponse(bool);
 
 /// ICE candidate.
+///
 /// Refer to https://developer.mozilla.org/en-US/docs/Web/API/RTCIceCandidate
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]

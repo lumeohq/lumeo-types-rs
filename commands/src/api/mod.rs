@@ -12,16 +12,37 @@ pub enum Error {
     DeserializeCommand,
 }
 
-/// API request packet type
+/// API message type
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum Message {
+    /// Request
+    Request(Request),
+    /// Notification
+    Notification(Notification),
+}
+
+/// Request type
+///
+/// Expect response from remote end
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Request {
     /// Request body
     pub body: Body,
     /// Response correlation string
-    pub respond_to: Option<String>,
+    pub respond_to: String,
 }
 
-/// API request body
+/// Notification
+///
+/// Fire and forget packet
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Notification {
+    /// Notification body
+    pub body: Body,
+}
+
+/// API message body payloads
 #[derive(Debug, Serialize, Deserialize)]
 pub enum Body {
     /// Start pipeline deployment
@@ -35,19 +56,10 @@ pub enum Body {
 }
 
 impl Request {
-    /// Create new notification
-    pub fn notification(body: Body) -> Self {
-        Self {
+    pub fn new(body: Body) -> Self {
+        Request {
             body,
-            respond_to: None,
-        }
-    }
-
-    /// Create new request
-    pub fn request(body: Body) -> Self {
-        Self {
-            body,
-            respond_to: Some(format!("resp/{}", Uuid::new_v4())),
+            respond_to: format!("resp/{}", Uuid::new_v4()),
         }
     }
 }
