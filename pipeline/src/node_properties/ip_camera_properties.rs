@@ -16,6 +16,14 @@ pub struct IpCameraProperties {
 pub struct IpCameraRuntime {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<String>,
+
+    /// Stream ID.
+    ///
+    /// This field is set to `Some` by API server.
+    ///
+    /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stream_id: Option<String>,
 }
 
 impl_camera_props!(IpCameraProperties, IpCameraRuntime);
