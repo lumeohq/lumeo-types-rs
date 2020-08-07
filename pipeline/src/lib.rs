@@ -17,6 +17,7 @@ mod tests {
 
     use crate::{
         EncodeProperties, StreamRtspOutProperties, StreamRtspOutRuntime, UsbCameraProperties,
+        UsbCameraRuntime,
     };
     use crate::{Node, NodeProperties, Pipeline, Resolution};
     use crate::{SinkPad, SourcePad, SourcePads};
@@ -125,13 +126,15 @@ mod tests {
 
     fn usb_camera_properties() -> NodeProperties {
         NodeProperties::UsbCamera(UsbCameraProperties {
-            uri: Url::from_str("file:///dev/video0").unwrap(),
             framerate: Some(15),
             resolution: Some(Resolution {
                 width: 720,
                 height: 480,
             }),
-            runtime: Default::default(),
+            runtime: UsbCameraRuntime {
+                uri: Url::from_str("file:///dev/video0").unwrap(),
+                source: None,
+            },
         })
     }
 

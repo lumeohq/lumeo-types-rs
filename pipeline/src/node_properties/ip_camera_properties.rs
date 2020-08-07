@@ -3,7 +3,6 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct IpCameraProperties {
-    pub uri: url::Url,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub resolution: Option<Resolution>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -12,8 +11,10 @@ pub struct IpCameraProperties {
     pub runtime: IpCameraRuntime,
 }
 
-#[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct IpCameraRuntime {
+    pub uri: url::Url,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub source: Option<String>,
 
