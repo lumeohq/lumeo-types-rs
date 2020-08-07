@@ -151,7 +151,7 @@ mod tests {
     fn stream_rtsp_out_properties() -> NodeProperties {
         NodeProperties::StreamRtspOut(StreamRtspOutProperties {
             runtime: StreamRtspOutRuntime {
-                uri: Some(Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap()),
+                uri: Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap(),
                 udp_port: Some(5800),
                 stream_id: None,
             },
