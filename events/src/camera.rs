@@ -8,8 +8,11 @@ pub struct Event {
 /// `Camera` type represents different camera types: IP, USB, CSI cameras
 #[derive(Serialize, Deserialize, Default, Debug, Clone)]
 pub struct Camera {
-    /// ONVIF address if camera is ONVIF-compliant
-    pub onvif_addr: Option<String>,
+    /// URI to access the camera.
+    ///
+    /// - USB or CSI camera: local file name (for example `file:///dev/video0`).
+    /// - IP camera: ONVIF device management service URL (for example `http://192.168.1.2/device`);
+    pub uri: String,
 
     /// Status: `online`, `offline`
     pub status: Option<String>,
@@ -31,10 +34,10 @@ pub struct Camera {
     /// Physical interface: `usb`, `csi`, `ethernet`
     pub interface: Option<String>,
 
-    /// URI to access video:
-    /// - local file name for `local` cameras (for example `/dev/video0`)
-    /// - RTSP URI for `remote` cameras (for example `rtsp://192.168.1.2/my_stream`)
-    pub uri: Option<String>,
+    /// RTSP stream address.
+    /// It is valid for `remote` cameras only.
+    /// Example: `rtsp://192.168.1.2:554/my_stream`.
+    pub rtsp_uri: Option<String>,
 
     /// Local IP address for IP cameras
     pub ip_local: Option<String>,
