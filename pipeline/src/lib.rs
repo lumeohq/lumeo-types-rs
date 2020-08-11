@@ -29,6 +29,7 @@ mod tests {
   properties:
     type: usb_camera
     uri: file:///dev/video0
+    source: usb_1
     framerate: 15
     resolution: 720x480
   wires:
@@ -126,6 +127,7 @@ mod tests {
 
     fn usb_camera_properties() -> NodeProperties {
         NodeProperties::UsbCamera(UsbCameraProperties {
+            source: String::from("usb_1"),
             framerate: Some(15),
             resolution: Some(Resolution {
                 width: 720,
@@ -133,7 +135,6 @@ mod tests {
             }),
             runtime: UsbCameraRuntime {
                 uri: Url::from_str("file:///dev/video0").unwrap(),
-                source: None,
             },
         })
     }

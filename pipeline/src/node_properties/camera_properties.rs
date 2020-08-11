@@ -7,6 +7,8 @@ pub trait CameraProperties {
     fn set_resolution(&mut self, resolution: Option<Resolution>);
     fn framerate(&self) -> Option<u32>;
     fn set_framerate(&mut self, framerate: Option<u32>);
+    fn source(&self) -> &str;
+    fn set_source(&mut self, source: String);
     fn runtime(&self) -> &Self::Runtime;
     fn runtime_mut(&mut self) -> &mut Self::Runtime;
 }
@@ -14,8 +16,6 @@ pub trait CameraProperties {
 pub trait CameraRuntime {
     fn uri(&self) -> &url::Url;
     fn set_uri(&mut self, url: url::Url);
-    fn source(&self) -> Option<&str>;
-    fn set_source(&mut self, source: Option<String>);
 }
 
 macro_rules! impl_camera_props {
@@ -39,6 +39,14 @@ macro_rules! impl_camera_props {
                 self.framerate = framerate;
             }
 
+            fn source(&self) -> &str {
+                &self.source
+            }
+
+            fn set_source(&mut self, source: String) {
+                self.source = source;
+            }
+
             fn runtime(&self) -> &$runtime {
                 &self.runtime
             }
@@ -56,14 +64,6 @@ macro_rules! impl_camera_props {
             fn set_uri(&mut self, uri: url::Url) {
                 self.uri = uri
             }
-
-            fn source(&self) -> Option<&str> {
-                self.source.as_deref()
-            }
-
-            fn set_source(&mut self, source: Option<String>) {
-                self.source = source;
-            }
         }
     };
 }
@@ -80,9 +80,9 @@ mod test {
     #[test]
     fn generic_camera_api() {
         let usb_camera = UsbCameraProperties {
+            source: String::from("USB"),
             runtime: UsbCameraRuntime {
                 uri: Url::from_str("file:///whatever").unwrap(),
-                source: Some(String::from("USB")),
             },
             resolution: Some(Resolution {
                 width: 640,
@@ -98,6 +98,7 @@ mod test {
     where
         C: CameraProperties,
     {
+        assert_eq!(camera.source(), "USB");
         assert_eq!(camera.framerate().unwrap(), 30);
         assert_eq!(
             *camera.resolution().unwrap(),
@@ -110,6 +111,5 @@ mod test {
             camera.runtime().uri(),
             &Url::from_str("file:///whatever").unwrap()
         );
-        assert_eq!(camera.runtime().source().unwrap(), "USB");
     }
 }
