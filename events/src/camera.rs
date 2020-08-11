@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use url::Url;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Event {
@@ -6,13 +7,13 @@ pub struct Event {
 }
 
 /// `Camera` type represents different camera types: IP, USB, CSI cameras
-#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Camera {
     /// URI to access the camera.
     ///
     /// - USB or CSI camera: local file name (for example `file:///dev/video0`).
     /// - IP camera: ONVIF device management service URL (for example `http://192.168.1.2/device`);
-    pub uri: String,
+    pub uri: Url,
 
     /// Status: `online`, `offline`
     pub status: Option<String>,
@@ -37,7 +38,7 @@ pub struct Camera {
     /// RTSP stream address.
     /// It is valid for `remote` cameras only.
     /// Example: `rtsp://192.168.1.2:554/my_stream`.
-    pub rtsp_uri: Option<String>,
+    pub rtsp_uri: Option<Url>,
 
     /// Local IP address for IP cameras
     pub ip_local: Option<String>,
@@ -50,7 +51,7 @@ pub struct Camera {
 }
 
 /// Configuration parameters that are supported by this specific camera.
-#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Capability {
     /// Capability name
     pub name: String,
@@ -69,7 +70,7 @@ pub struct Capability {
 }
 
 /// Type representing rational number.
-#[derive(Serialize, Deserialize, Default, Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Fraction {
     pub numer: i32,
     pub denom: i32,
