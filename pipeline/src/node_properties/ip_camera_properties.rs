@@ -1,31 +1,35 @@
 use crate::resolution::Resolution;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
-// Ditch all manual Serialize + Deserialize code after changing the properties to specific types.
-// This includes the use of `serialize_with` attribute.
-
-#[derive(Debug, Clone, PartialEq, Serialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct IpCameraProperties {
-    pub uri: url::Url,
+    pub source: String,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub resolution: Option<Resolution>,
-    #[serde(
-        skip_serializing_if = "Option::is_none",
-        serialize_with = "super::serialize_option"
-    )]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub framerate: Option<u32>,
+    #[serde(flatten)]
+    pub runtime: IpCameraRuntime,
 }
 
-impl<'de> serde::de::Deserialize<'de> for IpCameraProperties {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::de::Deserializer<'de>,
-    {
-        let props = <std::collections::HashMap<String, String>>::deserialize(deserializer)?;
-        Ok(IpCameraProperties {
-            uri: super::get_required(&props, "uri")?,
-            resolution: super::get_option(&props, "resolution")?,
-            framerate: super::get_option(&props, "framerate")?,
-        })
-    }
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct IpCameraRuntime {
+    pub uri: url::Url,
+
+    /// Stream ID.
+    ///
+    /// This field is set to `Some` by API server.
+    ///
+    /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub stream_id: Option<String>,
+
+    /// UDP port.
+    ///
+    /// Currently unused.
+    pub udp_port: Option<u16>,
 }
+
+impl_camera_props!(IpCameraProperties, IpCameraRuntime);
+impl_stream_props!(IpCameraProperties, IpCameraRuntime, "camera");

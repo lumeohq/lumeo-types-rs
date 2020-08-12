@@ -14,7 +14,7 @@ pub struct StreamRtspOutRuntime {
     /// This field is set to `Some` by `lumeod`.
     // TODO: this should be set by API server, more details here:
     //       https://app.clubhouse.io/lumeo/story/940/set-correct-stream-url-for-pipeline-streams-created-for-webrtc-nodes
-    pub uri: Option<Url>,
+    pub uri: Url,
 
     /// UDP port for `udpsink` element.
     ///
@@ -23,4 +23,13 @@ pub struct StreamRtspOutRuntime {
     /// Since pipeline can have multiple RTSP output streams we need to
     /// distribute ports at `lumeod` level.
     pub udp_port: Option<u16>,
+
+    /// Stream ID.
+    ///
+    /// This field is set to `Some` by API server.
+    ///
+    /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
+    pub stream_id: Option<String>,
 }
+
+impl_stream_props!(StreamRtspOutProperties, StreamRtspOutRuntime, "rtsp");

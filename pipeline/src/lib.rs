@@ -17,6 +17,7 @@ mod tests {
 
     use crate::{
         EncodeProperties, StreamRtspOutProperties, StreamRtspOutRuntime, UsbCameraProperties,
+        UsbCameraRuntime,
     };
     use crate::{Node, NodeProperties, Pipeline, Resolution};
     use crate::{SinkPad, SourcePad, SourcePads};
@@ -24,29 +25,30 @@ mod tests {
     #[test]
     fn pipeline_nodes_de() {
         let yaml = r#"---
-- type: usb_camera
-  id: camera1
+- id: camera1
   properties:
+    type: usb_camera
     uri: file:///dev/video0
-    framerate: '15'
+    source: usb_1
+    framerate: 15
     resolution: 720x480
   wires:
     video:
       - encode1.input
     snapshot: []
-- type: encode
-  id: encode1
+- id: encode1
   properties:
+    type: encode
     codec: 'h264'
-    max_bitrate: '1500000'
-    quality: '10'
-    fps: '15'
+    max_bitrate: 1500000
+    quality: 10
+    fps: 15
   wires:
     output:
       - stream_rtsp_out1.input
-- type: stream_rtsp_out
-  id: stream_rtsp_out1
+- id: stream_rtsp_out1
   properties:
+    type: stream_rtsp_out
     uri: rtsp://127.0.0.1:5555/mycamera
     udp_port: 5800
   wires: {}"#;
@@ -125,12 +127,15 @@ mod tests {
 
     fn usb_camera_properties() -> NodeProperties {
         NodeProperties::UsbCamera(UsbCameraProperties {
-            uri: Url::from_str("file:///dev/video0").unwrap(),
+            source: String::from("usb_1"),
             framerate: Some(15),
             resolution: Some(Resolution {
                 width: 720,
                 height: 480,
             }),
+            runtime: UsbCameraRuntime {
+                uri: Url::from_str("file:///dev/video0").unwrap(),
+            },
         })
     }
 
@@ -147,8 +152,9 @@ mod tests {
     fn stream_rtsp_out_properties() -> NodeProperties {
         NodeProperties::StreamRtspOut(StreamRtspOutProperties {
             runtime: StreamRtspOutRuntime {
-                uri: Some(Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap()),
+                uri: Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap(),
                 udp_port: Some(5800),
+                stream_id: None,
             },
         })
     }

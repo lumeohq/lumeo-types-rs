@@ -1,7 +1,11 @@
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct ModelInferenceProperties {
+    /// The ID of the inference model.
+    pub model_id: Uuid,
+
     pub runtime: ModelInferenceRuntime,
 }
 

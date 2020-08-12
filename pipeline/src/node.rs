@@ -5,17 +5,16 @@ use crate::{NodeProperties, SourcePads};
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct Node {
     id: String,
-    #[serde(flatten)]
-    props: NodeProperties,
+    properties: NodeProperties,
     #[serde(rename = "wires")]
     source_pads: SourcePads,
 }
 
 impl Node {
-    pub fn new(id: &str, props: NodeProperties, source_pads: Option<SourcePads>) -> Self {
+    pub fn new(id: &str, properties: NodeProperties, source_pads: Option<SourcePads>) -> Self {
         Self {
             id: id.to_string(),
-            props,
+            properties,
             source_pads: source_pads.unwrap_or_else(SourcePads::new),
         }
     }
@@ -25,11 +24,11 @@ impl Node {
     }
 
     pub fn properties(&self) -> &NodeProperties {
-        &self.props
+        &self.properties
     }
 
     pub fn properties_mut(&mut self) -> &mut NodeProperties {
-        &mut self.props
+        &mut self.properties
     }
 
     pub fn source_pads(&self) -> &SourcePads {
