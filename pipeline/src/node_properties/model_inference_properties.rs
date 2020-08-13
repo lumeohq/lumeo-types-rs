@@ -18,6 +18,5 @@ pub struct ModelInferenceRuntime {
     /// Inferencing GStreamer element requires config to be stored locally
     /// so `lumeod` should download everything required for model to run
     /// and generate a config.
-    // TODO: replace url::Url with fs::PathBuf
-    pub config: Option<url::Url>,
+    pub config: Option<std::path::PathBuf>,
 }

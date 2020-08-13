@@ -16,6 +16,5 @@ pub struct FunctionRuntime {
     /// `lumeod` receives code as a string blob (`FunctionProperties::code`) but gvapython
     /// element requires a path to ".py" file, so lumeod stores code in a file and sets
     /// `module` field to file path.
-    // TODO: replace String with fs::PathBuf
-    pub module: Option<String>,
+    pub module: Option<std::path::PathBuf>,
 }

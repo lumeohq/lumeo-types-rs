@@ -24,36 +24,52 @@ mod tests {
 
     #[test]
     fn pipeline_nodes_de() {
-        let yaml = r#"---
-- id: camera1
-  properties:
-    type: usb_camera
-    uri: file:///dev/video0
-    source: usb_1
-    framerate: 15
-    resolution: 720x480
-  wires:
-    video:
-      - encode1.input
-    snapshot: []
-- id: encode1
-  properties:
-    type: encode
-    codec: 'h264'
-    max_bitrate: 1500000
-    quality: 10
-    fps: 15
-  wires:
-    output:
-      - stream_rtsp_out1.input
-- id: stream_rtsp_out1
-  properties:
-    type: stream_rtsp_out
-    uri: rtsp://127.0.0.1:5555/mycamera
-    udp_port: 5800
-  wires: {}"#;
+        let json = serde_json::json!(
+            [
+                {
+                    "id": "camera1",
+                    "properties": {
+                        "type": "usb_camera",
+                        "uri": "file:///dev/video0",
+                        "source": "usb_1",
+                        "framerate": 15,
+                        "resolution": "720x480"
+                    },
+                    "wires": {
+                        "video": [
+                            "encode1.input"
+                        ],
+                        "snapshot": []
+                    }
+                },
+                {
+                    "id": "encode1",
+                    "properties": {
+                        "type": "encode",
+                        "codec": "h264",
+                        "max_bitrate": 1500000,
+                        "quality": 10,
+                        "fps": 15
+                    },
+                    "wires": {
+                        "output": [
+                            "stream_rtsp_out1.input"
+                        ]
+                    }
+                },
+                {
+                    "id": "stream_rtsp_out1",
+                    "properties": {
+                        "type": "stream_rtsp_out",
+                        "uri": "rtsp://127.0.0.1:5555/mycamera",
+                        "udp_port": 5800
+                    },
+                    "wires": {}
+                }
+            ]
+        );
 
-        let pipeline: Pipeline = serde_yaml::from_str(yaml).unwrap();
+        let pipeline: Pipeline = serde_json::from_value(json).unwrap();
 
         check_deserialize_pipeline(&pipeline);
     }
@@ -94,10 +110,10 @@ mod tests {
         let node = Node::new("stream_rtsp_out1", stream_rtsp_out_properties(), None);
         pipeline.add_node(node);
 
-        let yaml = serde_yaml::to_string(&pipeline).unwrap();
+        let json = serde_json::to_string(&pipeline).unwrap();
 
         // Deserialize it back and see if everything is as expected
-        let pipeline: Pipeline = serde_yaml::from_str(&yaml).unwrap();
+        let pipeline: Pipeline = serde_json::from_str(&json).unwrap();
         check_deserialize_pipeline(&pipeline);
     }
 
