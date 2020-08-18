@@ -10,7 +10,7 @@ pub struct UsbCameraProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub framerate: Option<u32>,
     #[serde(flatten)]
-    pub runtime: UsbCameraRuntime,
+    pub runtime: Option<UsbCameraRuntime>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

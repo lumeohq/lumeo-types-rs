@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 pub struct FunctionProperties {
     pub code: String,
     #[serde(flatten)]
-    pub runtime: FunctionRuntime,
+    pub runtime: Option<FunctionRuntime>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]

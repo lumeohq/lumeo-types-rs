@@ -6,7 +6,7 @@ pub struct ModelInferenceProperties {
     /// The ID of the inference model.
     pub model_id: Uuid,
 
-    pub runtime: ModelInferenceRuntime,
+    pub runtime: Option<ModelInferenceRuntime>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]

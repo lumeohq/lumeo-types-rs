@@ -10,7 +10,7 @@ pub struct CsiCameraProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub framerate: Option<u32>,
     #[serde(flatten)]
-    pub runtime: CsiCameraRuntime,
+    pub runtime: Option<CsiCameraRuntime>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

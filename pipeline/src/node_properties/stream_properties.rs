@@ -5,8 +5,8 @@ pub trait StreamProperties {
     const STREAM_TYPE: &'static str;
     type Runtime: StreamRuntime;
 
-    fn runtime(&self) -> &Self::Runtime;
-    fn runtime_mut(&mut self) -> &mut Self::Runtime;
+    fn runtime(&self) -> Option<&Self::Runtime>;
+    fn runtime_mut(&mut self) -> Option<&mut Self::Runtime>;
 }
 
 pub trait StreamRuntime {
@@ -24,12 +24,12 @@ macro_rules! impl_stream_props {
             const STREAM_TYPE: &'static str = $type_str;
             type Runtime = $runtime;
 
-            fn runtime(&self) -> &$runtime {
-                &self.runtime
+            fn runtime(&self) -> Option<&$runtime> {
+                self.runtime.as_ref()
             }
 
-            fn runtime_mut(&mut self) -> &mut $runtime {
-                &mut self.runtime
+            fn runtime_mut(&mut self) -> Option<&mut $runtime> {
+                self.runtime.as_mut()
             }
         }
 

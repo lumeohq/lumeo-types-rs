@@ -149,9 +149,9 @@ mod tests {
                 width: 720,
                 height: 480,
             }),
-            runtime: UsbCameraRuntime {
+            runtime: Some(UsbCameraRuntime {
                 uri: Url::from_str("file:///dev/video0").unwrap(),
-            },
+            }),
         })
     }
 
@@ -167,11 +167,11 @@ mod tests {
 
     fn stream_rtsp_out_properties() -> NodeProperties {
         NodeProperties::StreamRtspOut(StreamRtspOutProperties {
-            runtime: StreamRtspOutRuntime {
+            runtime: Some(StreamRtspOutRuntime {
                 uri: Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap(),
                 udp_port: Some(5800),
                 stream_id: None,
-            },
+            }),
         })
     }
 }

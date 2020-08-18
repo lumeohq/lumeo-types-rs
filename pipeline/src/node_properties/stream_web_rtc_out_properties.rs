@@ -5,7 +5,7 @@ use uuid::Uuid;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct StreamWebRtcOutProperties {
     #[serde(flatten)]
-    pub runtime: StreamWebRtcOutRuntime,
+    pub runtime: Option<StreamWebRtcOutRuntime>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
