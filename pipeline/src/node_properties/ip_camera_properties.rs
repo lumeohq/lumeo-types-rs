@@ -10,7 +10,7 @@ pub struct IpCameraProperties {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub framerate: Option<u32>,
     #[serde(flatten)]
-    pub runtime: IpCameraRuntime,
+    pub runtime: Option<IpCameraRuntime>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

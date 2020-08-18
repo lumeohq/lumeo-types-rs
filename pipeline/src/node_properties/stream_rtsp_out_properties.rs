@@ -4,7 +4,7 @@ use url::Url;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct StreamRtspOutProperties {
     #[serde(flatten)]
-    pub runtime: StreamRtspOutRuntime,
+    pub runtime: Option<StreamRtspOutRuntime>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

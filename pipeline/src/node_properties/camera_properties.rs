@@ -9,8 +9,8 @@ pub trait CameraProperties {
     fn set_framerate(&mut self, framerate: Option<u32>);
     fn source(&self) -> &str;
     fn set_source(&mut self, source: String);
-    fn runtime(&self) -> &Self::Runtime;
-    fn runtime_mut(&mut self) -> &mut Self::Runtime;
+    fn runtime(&self) -> Option<&Self::Runtime>;
+    fn runtime_mut(&mut self) -> Option<&mut Self::Runtime>;
 }
 
 pub trait CameraRuntime {
@@ -47,12 +47,12 @@ macro_rules! impl_camera_props {
                 self.source = source;
             }
 
-            fn runtime(&self) -> &$runtime {
-                &self.runtime
+            fn runtime(&self) -> Option<&$runtime> {
+                self.runtime.as_ref()
             }
 
-            fn runtime_mut(&mut self) -> &mut $runtime {
-                &mut self.runtime
+            fn runtime_mut(&mut self) -> Option<&mut $runtime> {
+                self.runtime.as_mut()
             }
         }
 
@@ -81,9 +81,9 @@ mod test {
     fn generic_camera_api() {
         let usb_camera = UsbCameraProperties {
             source: String::from("USB"),
-            runtime: UsbCameraRuntime {
+            runtime: Some(UsbCameraRuntime {
                 uri: Url::from_str("file:///whatever").unwrap(),
-            },
+            }),
             resolution: Some(Resolution {
                 width: 640,
                 height: 480,
@@ -108,7 +108,7 @@ mod test {
             },
         );
         assert_eq!(
-            camera.runtime().uri(),
+            camera.runtime().unwrap().uri(),
             &Url::from_str("file:///whatever").unwrap()
         );
     }
