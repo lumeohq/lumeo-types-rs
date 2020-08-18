@@ -1,3 +1,5 @@
+use uuid::Uuid;
+
 pub trait StreamProperties {
     /// The stream type, e.g "webrtc", "rtsp" etc
     const STREAM_TYPE: &'static str;
@@ -12,8 +14,8 @@ pub trait StreamRuntime {
     fn set_uri(&mut self, url: url::Url);
     fn udp_port(&self) -> Option<u16>;
     fn set_udp_port(&mut self, port: Option<u16>);
-    fn stream_id(&self) -> Option<&str>;
-    fn set_stream_id(&mut self, stream_id: Option<String>);
+    fn stream_id(&self) -> Option<Uuid>;
+    fn set_stream_id(&mut self, stream_id: Option<Uuid>);
 }
 
 macro_rules! impl_stream_props {
@@ -48,11 +50,11 @@ macro_rules! impl_stream_props {
                 self.udp_port = port;
             }
 
-            fn stream_id(&self) -> Option<&str> {
-                self.stream_id.as_deref()
+            fn stream_id(&self) -> Option<uuid::Uuid> {
+                self.stream_id
             }
 
-            fn set_stream_id(&mut self, stream_id: Option<String>) {
+            fn set_stream_id(&mut self, stream_id: Option<uuid::Uuid>) {
                 self.stream_id = stream_id;
             }
         }

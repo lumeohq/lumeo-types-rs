@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use url::Url;
+use uuid::Uuid;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct StreamWebRtcOutProperties {
@@ -32,7 +33,7 @@ pub struct StreamWebRtcOutRuntime {
     /// This field is set to `Some` by API server.
     ///
     /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
-    pub stream_id: Option<String>,
+    pub stream_id: Option<Uuid>,
 }
 
 impl_stream_props!(StreamWebRtcOutProperties, StreamWebRtcOutRuntime, "webrtc");
