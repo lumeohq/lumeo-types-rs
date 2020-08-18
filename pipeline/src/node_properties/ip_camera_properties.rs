@@ -1,5 +1,6 @@
 use crate::resolution::Resolution;
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct IpCameraProperties {
@@ -23,7 +24,7 @@ pub struct IpCameraRuntime {
     ///
     /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub stream_id: Option<String>,
+    pub stream_id: Option<Uuid>,
 
     /// UDP port.
     ///
