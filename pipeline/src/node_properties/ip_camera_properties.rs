@@ -16,6 +16,13 @@ pub struct IpCameraProperties {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct IpCameraRuntime {
+    /// Camera URI.
+    ///
+    /// This field is set by API server.
+    ///
+    /// This URI is used by `lumeod` to access IP camera.
+    ///
+    /// Example: "http://192.168.1.42:8000/onvif/device_service"
     pub uri: url::Url,
 
     /// Stream ID.
