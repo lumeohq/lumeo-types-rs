@@ -21,6 +21,7 @@ mod tests {
     };
     use crate::{Node, NodeProperties, Pipeline, Resolution};
     use crate::{SinkPad, SourcePad, SourcePads};
+    use uuid::Uuid;
 
     #[test]
     fn pipeline_nodes_de() {
@@ -62,6 +63,7 @@ mod tests {
                     "properties": {
                         "type": "stream_rtsp_out",
                         "uri": "rtsp://127.0.0.1:5555/mycamera",
+                        "stream_id": "00000000-0000-0000-0000-000000000000",
                         "udp_port": 5800
                     },
                     "wires": {}
@@ -169,8 +171,8 @@ mod tests {
         NodeProperties::StreamRtspOut(StreamRtspOutProperties {
             runtime: Some(StreamRtspOutRuntime {
                 uri: Url::from_str("rtsp://127.0.0.1:5555/mycamera").unwrap(),
+                stream_id: Uuid::nil(),
                 udp_port: Some(5800),
-                stream_id: None,
             }),
         })
     }

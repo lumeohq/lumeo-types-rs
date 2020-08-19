@@ -30,10 +30,10 @@ pub struct StreamWebRtcOutRuntime {
 
     /// Stream ID.
     ///
-    /// This field is set to `Some` by API server.
+    /// This field is set by API server.
     ///
     /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
-    pub stream_id: Option<Uuid>,
+    pub stream_id: Uuid,
 }
 
 impl_stream_props!(StreamWebRtcOutProperties, StreamWebRtcOutRuntime, "webrtc");

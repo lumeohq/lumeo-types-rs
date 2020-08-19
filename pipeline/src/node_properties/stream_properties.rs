@@ -14,8 +14,8 @@ pub trait StreamRuntime {
     fn set_uri(&mut self, url: url::Url);
     fn udp_port(&self) -> Option<u16>;
     fn set_udp_port(&mut self, port: Option<u16>);
-    fn stream_id(&self) -> Option<Uuid>;
-    fn set_stream_id(&mut self, stream_id: Option<Uuid>);
+    fn stream_id(&self) -> Uuid;
+    fn set_stream_id(&mut self, stream_id: Uuid);
 }
 
 macro_rules! impl_stream_props {
@@ -50,11 +50,11 @@ macro_rules! impl_stream_props {
                 self.udp_port = port;
             }
 
-            fn stream_id(&self) -> Option<uuid::Uuid> {
+            fn stream_id(&self) -> uuid::Uuid {
                 self.stream_id
             }
 
-            fn set_stream_id(&mut self, stream_id: Option<uuid::Uuid>) {
+            fn set_stream_id(&mut self, stream_id: uuid::Uuid) {
                 self.stream_id = stream_id;
             }
         }

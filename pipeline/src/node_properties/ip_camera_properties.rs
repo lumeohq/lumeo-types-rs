@@ -20,11 +20,10 @@ pub struct IpCameraRuntime {
 
     /// Stream ID.
     ///
-    /// This field is set to `Some` by API server.
+    /// This field is set by API server.
     ///
     /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub stream_id: Option<Uuid>,
+    pub stream_id: Uuid,
 
     /// UDP port.
     ///
