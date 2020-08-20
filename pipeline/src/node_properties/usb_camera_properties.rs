@@ -15,6 +15,13 @@ pub struct UsbCameraProperties {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct UsbCameraRuntime {
+    /// Camera URI.
+    ///
+    /// This field is set by API server.
+    ///
+    /// This URI is used by `lumeod` to access local camera.
+    ///
+    /// Example: "file:///dev/video0"
     pub uri: url::Url,
 }
 
