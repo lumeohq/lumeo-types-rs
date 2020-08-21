@@ -7,6 +7,10 @@ pub trait StreamProperties {
 
     fn runtime(&self) -> Option<&Self::Runtime>;
     fn runtime_mut(&mut self) -> Option<&mut Self::Runtime>;
+
+    fn stream_type(&self) -> &'static str {
+        Self::STREAM_TYPE
+    }
 }
 
 pub trait StreamRuntime {
