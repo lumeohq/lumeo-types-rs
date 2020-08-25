@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use uuid::Uuid;
 
+pub mod camera;
 pub mod deployment;
 pub mod webrtc;
 
@@ -49,8 +50,8 @@ pub enum Body {
     StartDeployment(deployment::StartDeployment),
     /// Stop deployment
     StopDeployment(deployment::StopDeployment),
-    /// Discover cameras
-    Discover,
+    /// Camera commands
+    Camera(camera::Request),
     /// WebRTC subcommands collection
     WebRtc(webrtc::Request),
 }

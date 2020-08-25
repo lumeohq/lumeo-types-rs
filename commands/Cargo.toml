@@ -10,6 +10,7 @@ edition = "2018"
 serde = { version = "1.0", features = ["derive"] }
 thiserror = "1.0"
 uuid = { version = "0.8", features = ["serde"] }
+lumeo-events = { path = "../events" }
 
 [dev-dependencies]
 uuid = { version = "0.8", features = ["v4", "serde"] }
