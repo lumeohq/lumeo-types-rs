@@ -24,6 +24,8 @@ pub mod convert_properties;
 pub use convert_properties::ConvertProperties;
 pub mod model_inference_properties;
 pub use model_inference_properties::{ModelInferenceProperties, ModelInferenceRuntime};
+pub mod metadata_inserter_properties;
+pub use metadata_inserter_properties::MetadataInserterProperties;
 pub mod overlay_properties;
 pub use overlay_properties::OverlayProperties;
 pub mod clip_properties;
@@ -44,6 +46,7 @@ pub enum NodeProperties {
     Encode(EncodeProperties),
     Convert(ConvertProperties),
     ModelInference(ModelInferenceProperties),
+    MetadataInserter(MetadataInserterProperties),
     Overlay(OverlayProperties),
     Clip(ClipProperties),
     Snapshot(SnapshotProperties),
