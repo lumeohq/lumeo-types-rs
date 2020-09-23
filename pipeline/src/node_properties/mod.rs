@@ -20,8 +20,8 @@ pub mod usb_camera_properties;
 pub use usb_camera_properties::{UsbCameraProperties, UsbCameraRuntime};
 pub mod ip_camera_properties;
 pub use ip_camera_properties::{IpCameraProperties, IpCameraRuntime};
-pub mod convert_properties;
-pub use convert_properties::ConvertProperties;
+pub mod transform_properties;
+pub use transform_properties::{FlipDirection, TransformProperties};
 pub mod model_inference_properties;
 pub use model_inference_properties::{ModelInferenceProperties, ModelInferenceRuntime};
 pub mod metadata_inserter_properties;
@@ -44,7 +44,7 @@ pub enum NodeProperties {
     #[serde(rename = "camera")]
     IpCamera(IpCameraProperties),
     Encode(EncodeProperties),
-    Convert(ConvertProperties),
+    Transform(TransformProperties),
     ModelInference(ModelInferenceProperties),
     MetadataInserter(MetadataInserterProperties),
     Overlay(OverlayProperties),
