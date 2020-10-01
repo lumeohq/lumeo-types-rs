@@ -67,8 +67,11 @@ impl<'de> Deserialize<'de> for Crop {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TransformProperties {
+    /// Framerate.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub fps: Option<u32>,
+
+    /// The desired resolution.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub resolution: Option<crate::Resolution>,
 
