@@ -16,8 +16,8 @@ mod tests {
     use url::Url;
 
     use crate::{
-        EncodeProperties, StreamRtspOutProperties, StreamRtspOutRuntime, UsbCameraProperties,
-        UsbCameraRuntime,
+        CameraProperties, CameraRuntime, CommonVideoSourceProperties, EncodeProperties,
+        StreamRtspOutProperties, StreamRtspOutRuntime, UsbCameraRuntime, VideoSourceProperties,
     };
     use crate::{Node, NodeProperties, Pipeline, Resolution};
     use crate::{SinkPad, SourcePad, SourcePads};
@@ -28,13 +28,14 @@ mod tests {
         let json = serde_json::json!(
             [
                 {
-                    "id": "camera1",
+                    "id": "video1",
                     "properties": {
-                        "type": "usb_camera",
-                        "uri": "file:///dev/video0",
-                        "source": "usb_1",
+                        "type": "video",
+                        "source_type": "camera",
+                        "source_id": "00000000-0000-0000-0000-000000000000",
                         "framerate": 15,
-                        "resolution": "720x480"
+                        "resolution": "720x480",
+                        "uri": "file:///dev/video0"
                     },
                     "wires": {
                         "video": [
@@ -93,7 +94,7 @@ mod tests {
             name: String::from("snapshot"),
             sinks: vec![],
         });
-        let node = Node::new("camera1", usb_camera_properties(), Some(pads));
+        let node = Node::new("video1", video_properties(), Some(pads));
         pipeline.add_node(node);
 
         // Add Encoder
@@ -121,9 +122,9 @@ mod tests {
 
     fn check_deserialize_pipeline(pipeline: &Pipeline) {
         // Check usb_camera node
-        let node = pipeline.node_by_id("camera1").unwrap();
-        assert_eq!(node.id(), "camera1");
-        assert_eq!(node.properties(), &usb_camera_properties());
+        let node = pipeline.node_by_id("video1").unwrap();
+        assert_eq!(node.id(), "video1");
+        assert_eq!(node.properties(), &video_properties());
         let src_pad = node.source_pads().get("snapshot").unwrap();
         assert!(src_pad.sinks.is_empty());
         let src_pad = node.source_pads().get("video").unwrap();
@@ -143,18 +144,20 @@ mod tests {
         assert!(node.source_pads().is_empty());
     }
 
-    fn usb_camera_properties() -> NodeProperties {
-        NodeProperties::UsbCamera(UsbCameraProperties {
-            source: String::from("usb_1"),
-            framerate: Some(15),
-            resolution: Some(Resolution {
-                width: 720,
-                height: 480,
-            }),
-            runtime: Some(UsbCameraRuntime {
+    fn video_properties() -> NodeProperties {
+        NodeProperties::VideoSource(VideoSourceProperties::Camera(CameraProperties {
+            common: CommonVideoSourceProperties {
+                source_id: Uuid::nil(),
+                resolution: Some(Resolution {
+                    width: 720,
+                    height: 480,
+                }),
+                framerate: Some(15),
+            },
+            runtime: Some(CameraRuntime::Usb(UsbCameraRuntime {
                 uri: Url::from_str("file:///dev/video0").unwrap(),
-            }),
-        })
+            })),
+        }))
     }
 
     fn encode_properties() -> NodeProperties {

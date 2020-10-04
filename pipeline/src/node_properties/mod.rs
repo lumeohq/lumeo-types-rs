@@ -2,9 +2,12 @@
 
 use serde::{Deserialize, Serialize};
 
-#[macro_use]
-pub mod camera_properties;
-pub use camera_properties::{CameraProperties, CameraRuntime};
+pub mod video_source_properties;
+pub use video_source_properties::{
+    CameraProperties, CameraRuntime, CommonVideoSourceProperties, InputRtspStreamRuntime,
+    InputStreamProperties, InputStreamRuntime, InputWebRtcStreamRuntime, UsbCameraRuntime,
+    VideoSourceProperties,
+};
 #[macro_use]
 pub mod stream_properties;
 pub use stream_properties::{StreamProperties, StreamRuntime};
@@ -14,12 +17,6 @@ pub mod stream_rtsp_out_properties;
 pub use stream_rtsp_out_properties::{StreamRtspOutProperties, StreamRtspOutRuntime};
 pub mod stream_web_rtc_out_properties;
 pub use stream_web_rtc_out_properties::{StreamWebRtcOutProperties, StreamWebRtcOutRuntime};
-pub mod csi_camera_properties;
-pub use csi_camera_properties::{CsiCameraProperties, CsiCameraRuntime};
-pub mod usb_camera_properties;
-pub use usb_camera_properties::{UsbCameraProperties, UsbCameraRuntime};
-pub mod ip_camera_properties;
-pub use ip_camera_properties::{IpCameraProperties, IpCameraRuntime};
 pub mod transform_properties;
 pub use transform_properties::{FlipDirection, TransformProperties};
 pub mod model_inference_properties;
@@ -39,10 +36,8 @@ pub use function_properties::{FunctionProperties, FunctionRuntime};
 #[allow(clippy::large_enum_variant)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum NodeProperties {
-    UsbCamera(UsbCameraProperties),
-    CsiCamera(CsiCameraProperties),
-    #[serde(rename = "camera")]
-    IpCamera(IpCameraProperties),
+    #[serde(rename = "video")]
+    VideoSource(VideoSourceProperties),
     Encode(EncodeProperties),
     Transform(TransformProperties),
     ModelInference(ModelInferenceProperties),
