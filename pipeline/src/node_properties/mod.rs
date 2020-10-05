@@ -31,6 +31,8 @@ pub mod snapshot_properties;
 pub use snapshot_properties::SnapshotProperties;
 pub mod function_properties;
 pub use function_properties::{FunctionProperties, FunctionRuntime};
+pub mod combine_properties;
+pub use combine_properties::CombineProperties;
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -49,4 +51,5 @@ pub enum NodeProperties {
     #[serde(rename = "stream_webrtc_out")]
     StreamWebRtcOut(StreamWebRtcOutProperties),
     Function(FunctionProperties),
+    Combine(CombineProperties),
 }
