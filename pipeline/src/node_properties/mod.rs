@@ -33,6 +33,8 @@ pub mod function_properties;
 pub use function_properties::{FunctionProperties, FunctionRuntime};
 pub mod combine_properties;
 pub use combine_properties::CombineProperties;
+pub mod grid_properties;
+pub use grid_properties::GridProperties;
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 #[allow(clippy::large_enum_variant)]
@@ -52,4 +54,5 @@ pub enum NodeProperties {
     StreamWebRtcOut(StreamWebRtcOutProperties),
     Function(FunctionProperties),
     Combine(CombineProperties),
+    Grid(GridProperties),
 }
