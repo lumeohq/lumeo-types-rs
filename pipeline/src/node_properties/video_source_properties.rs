@@ -52,6 +52,7 @@ pub enum CameraRuntime {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum InputStreamRuntime {
     Rtsp(InputRtspStreamRuntime),
     WebRtc(InputWebRtcStreamRuntime),
