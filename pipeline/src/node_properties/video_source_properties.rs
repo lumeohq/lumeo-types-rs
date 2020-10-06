@@ -45,7 +45,7 @@ pub struct InputStreamProperties {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(untagged)]
+#[serde(rename_all = "snake_case")]
 pub enum CameraRuntime {
     Usb(UsbCameraRuntime),
     Csi(CsiCameraRuntime),
