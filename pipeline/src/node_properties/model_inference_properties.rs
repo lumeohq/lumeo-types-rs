@@ -6,6 +6,7 @@ pub struct ModelInferenceProperties {
     /// The ID of the inference model.
     pub model_id: Uuid,
 
+    #[serde(flatten)]
     pub runtime: Option<ModelInferenceRuntime>,
 }
 
