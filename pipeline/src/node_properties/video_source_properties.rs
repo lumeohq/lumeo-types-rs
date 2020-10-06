@@ -80,11 +80,6 @@ pub struct InputRtspStreamRuntime {
     ///
     /// Example: "rtsp://192.168.0.42:554/hd_stream"
     pub uri: Url,
-
-    /// Stream ID.
-    ///
-    /// Stream ID is used by `lumeod` to add a WebRTC endpoint to webrtcstreamer service.
-    pub stream_id: Uuid,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
