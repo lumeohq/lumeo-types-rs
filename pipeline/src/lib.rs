@@ -35,7 +35,9 @@ mod tests {
                         "source_id": "00000000-0000-0000-0000-000000000000",
                         "framerate": 15,
                         "resolution": "720x480",
-                        "uri": "file:///dev/video0"
+                        "usb": {
+                            "uri": "file:///dev/video0"
+                        }
                     },
                     "wires": {
                         "video": [
