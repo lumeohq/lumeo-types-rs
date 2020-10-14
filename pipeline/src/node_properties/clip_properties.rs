@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
 use std::path::PathBuf;
 use url::Url;
 
@@ -9,29 +10,23 @@ pub enum ClipProperties {
     LumeoCloud(LumeoCloudClipProperties),
 }
 
+#[skip_serializing_none]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CommonClipProperties {
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub min_duration: Option<u64>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub max_duration: Option<u64>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub max_size: Option<u64>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub retention_duration: Option<u64>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub webhook_url: Option<Url>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub trigger: Option<String>,
 }
 
+#[skip_serializing_none]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct LocalClipProperties {
     #[serde(flatten)]
     pub common: CommonClipProperties,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub path: Option<PathBuf>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub max_edge_files: Option<u64>,
 }
 

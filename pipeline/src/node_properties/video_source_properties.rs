@@ -1,5 +1,6 @@
 use crate::resolution::Resolution;
 use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
 use url::Url;
 use uuid::Uuid;
 
@@ -10,6 +11,7 @@ pub enum VideoSourceProperties {
     Stream(InputStreamProperties),
 }
 
+#[skip_serializing_none]
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CommonVideoSourceProperties {
     /// ID of associated object.
@@ -19,12 +21,10 @@ pub struct CommonVideoSourceProperties {
 
     /// Resolution of video source.
     /// If unset then some reasonable default is used.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub resolution: Option<Resolution>,
 
     /// Framerate of video source.
     /// If unset then some reasonable default is used.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub framerate: Option<u32>,
 }
 
