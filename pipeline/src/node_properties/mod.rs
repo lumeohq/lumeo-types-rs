@@ -26,7 +26,9 @@ pub use metadata_inserter_properties::MetadataInserterProperties;
 pub mod overlay_properties;
 pub use overlay_properties::OverlayProperties;
 pub mod clip_properties;
-pub use clip_properties::ClipProperties;
+pub use clip_properties::{
+    ClipProperties, CommonClipProperties, LocalClipProperties, LumeoCloudClipProperties,
+};
 pub mod snapshot_properties;
 pub use snapshot_properties::SnapshotProperties;
 pub mod function_properties;

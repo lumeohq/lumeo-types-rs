@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
 use std::str::FromStr;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -65,26 +66,22 @@ impl<'de> Deserialize<'de> for Crop {
     }
 }
 
+#[skip_serializing_none]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TransformProperties {
     /// Framerate.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub fps: Option<u32>,
 
     /// The desired resolution.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub resolution: Option<crate::Resolution>,
 
     /// Rotation angle in degrees.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub rotate: Option<f64>,
 
     /// Flip direction.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub flip: Option<FlipDirection>,
 
     /// Crop region.
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub crop: Option<Crop>,
 }
 
