@@ -47,6 +47,7 @@ pub enum NodeProperties {
     Encode(EncodeProperties),
     Transform(TransformProperties),
     ModelInference(ModelInferenceProperties),
+    #[serde(rename = "metadata_add")]
     MetadataInserter(MetadataInserterProperties),
     Overlay(OverlayProperties),
     Clip(ClipProperties),
