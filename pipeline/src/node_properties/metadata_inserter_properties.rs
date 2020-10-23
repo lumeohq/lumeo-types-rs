@@ -7,5 +7,6 @@ use url::Url;
 /// only supported scheme currently is `lumeo`, which will use TCP as transport.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct MetadataInserterProperties {
+    #[serde(rename = "source_uri")]
     pub uri: Url,
 }
