@@ -70,7 +70,8 @@ impl<'de> Deserialize<'de> for Crop {
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TransformProperties {
     /// Framerate.
-    pub fps: Option<u32>,
+    #[serde(alias = "fps")]
+    pub framerate: Option<u32>,
 
     /// The desired resolution.
     pub resolution: Option<crate::Resolution>,
@@ -93,7 +94,7 @@ mod test {
     #[test]
     fn transform() {
         let t = TransformProperties {
-            fps: Some(15),
+            framerate: Some(15),
             resolution: Some(crate::Resolution {
                 width: 640,
                 height: 480,

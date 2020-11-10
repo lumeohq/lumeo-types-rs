@@ -8,5 +8,6 @@ pub struct EncodeProperties {
     pub max_bitrate: Option<u32>,
     pub bitrate: Option<u32>,
     pub quality: Option<u32>,
-    pub fps: Option<u32>,
+    #[serde(alias = "fps")]
+    pub framerate: Option<u32>,
 }
