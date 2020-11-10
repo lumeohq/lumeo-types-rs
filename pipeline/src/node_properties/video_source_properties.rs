@@ -25,6 +25,7 @@ pub struct CommonVideoSourceProperties {
 
     /// Framerate of video source.
     /// If unset then some reasonable default is used.
+    #[serde(alias = "fps")]
     pub framerate: Option<u32>,
 }
 
