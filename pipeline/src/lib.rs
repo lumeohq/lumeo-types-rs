@@ -168,7 +168,7 @@ mod tests {
             max_bitrate: Some(1_500_000),
             bitrate: None,
             quality: Some(10),
-            fps: Some(15),
+            framerate: Some(15),
         })
     }
 
