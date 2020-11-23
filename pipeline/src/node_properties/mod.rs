@@ -30,7 +30,10 @@ pub use clip_properties::{
     ClipProperties, CommonClipProperties, LocalClipProperties, LumeoCloudClipProperties,
 };
 pub mod snapshot_properties;
-pub use snapshot_properties::SnapshotProperties;
+pub use snapshot_properties::{
+    CommonSnapshotProperties, LocalSnapshotProperties, LumeoCloudSnapshotProperties,
+    SnapshotProperties,
+};
 pub mod function_properties;
 pub use function_properties::{FunctionProperties, FunctionRuntime};
 pub mod combine_properties;
