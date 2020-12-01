@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::num::NonZeroU32;
 use uuid::Uuid;
 
@@ -32,4 +33,9 @@ pub struct ModelInferenceRuntime {
     /// so `lumeod` should download everything required for model to run
     /// and generate a config.
     pub config: Option<std::path::PathBuf>,
+
+    /// Inferencing Gstreamer element requires a unique numerical id for itself
+    /// and for any other inferencing nodes it operates on.
+    /// Map key is pipeline node id, val is unique id assigned to it at runtime.
+    pub infer_node_unique_ids: HashMap<String, i32>,
 }
