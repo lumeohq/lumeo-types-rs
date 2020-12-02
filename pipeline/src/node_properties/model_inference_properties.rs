@@ -37,5 +37,5 @@ pub struct ModelInferenceRuntime {
     /// Inferencing Gstreamer element requires a unique numerical id for itself
     /// and for any other inferencing nodes it operates on.
     /// Map key is pipeline node id, val is unique id assigned to it at runtime.
-    pub infer_node_unique_ids: HashMap<String, i32>,
+    pub infer_node_unique_ids: Option<HashMap<String, i32>>,
 }
