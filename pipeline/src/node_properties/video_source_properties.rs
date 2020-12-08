@@ -1,5 +1,5 @@
 use crate::resolution::Resolution;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize};
 use serde_with::skip_serializing_none;
 use url::Url;
 use uuid::Uuid;
@@ -12,7 +12,7 @@ pub enum VideoSourceProperties {
 }
 
 #[skip_serializing_none]
-#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize)]
 pub struct CommonVideoSourceProperties {
     /// ID of associated object.
     /// - if source_type=='camera' then source_id is camera ID
@@ -25,7 +25,6 @@ pub struct CommonVideoSourceProperties {
 
     /// Framerate of video source.
     /// If unset then some reasonable default is used.
-    #[serde(alias = "fps")]
     pub framerate: Option<u32>,
 }
 
@@ -95,4 +94,39 @@ pub struct InputRtspStreamRuntime {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct InputWebRtcStreamRuntime {
     // TODO: define how do we use WebRTC streams as inputs
+}
+
+// FIXME: replace manual deserialization with
+//  ```
+//      #[serde(alias = "fps")]`
+//      pub framerate: Option<u32>,
+//  ```
+//  when serde bug is fixed:
+//  https://github.com/serde-rs/serde/issues/1504
+impl<'de> Deserialize<'de> for CommonVideoSourceProperties {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        #[derive(Deserialize)]
+        struct Helper {
+            source_id: Uuid,
+            resolution: Option<Resolution>,
+            framerate: Option<u32>,
+            fps: Option<u32>,
+        }
+
+        let Helper {
+            source_id,
+            resolution,
+            framerate,
+            fps,
+        } = Deserialize::deserialize(deserializer)?;
+
+        Ok(Self {
+            source_id,
+            resolution,
+            framerate: framerate.or(fps),
+        })
+    }
 }
