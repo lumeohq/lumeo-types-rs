@@ -65,6 +65,9 @@ pub struct UsbCameraRuntime {
     ///
     /// Example: "file:///dev/video0"
     pub uri: Url,
+
+    /// Camera name.
+    pub name: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -73,6 +76,9 @@ pub struct CsiCameraRuntime {
     ///
     /// Example: "file:///dev/video0"
     pub uri: Url,
+
+    /// Camera name.
+    pub name: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -81,6 +87,9 @@ pub struct InputRtspStreamRuntime {
     ///
     /// Example: "rtsp://192.168.0.42:554/hd_stream"
     pub uri: Url,
+
+    /// Stream name.
+    pub name: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

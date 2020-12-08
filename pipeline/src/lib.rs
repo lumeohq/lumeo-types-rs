@@ -36,7 +36,8 @@ mod tests {
                         "framerate": 15,
                         "resolution": "720x480",
                         "usb": {
-                            "uri": "file:///dev/video0"
+                            "uri": "file:///dev/video0",
+                            "name": "Qwerty 3000",
                         }
                     },
                     "wires": {
@@ -158,6 +159,7 @@ mod tests {
             },
             runtime: Some(CameraRuntime::Usb(UsbCameraRuntime {
                 uri: Url::from_str("file:///dev/video0").unwrap(),
+                name: "Qwerty 3000".to_string(),
             })),
         }))
     }
