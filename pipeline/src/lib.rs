@@ -33,6 +33,7 @@ mod tests {
                         "type": "video",
                         "source_type": "camera",
                         "source_id": "00000000-0000-0000-0000-000000000000",
+                        "source_name": "Qwerty 3000",
                         "framerate": 15,
                         "resolution": "720x480",
                         "usb": {
@@ -150,6 +151,7 @@ mod tests {
         NodeProperties::VideoSource(VideoSourceProperties::Camera(CameraProperties {
             common: CommonVideoSourceProperties {
                 source_id: Uuid::nil(),
+                source_name: "Qwerty 3000".to_string(),
                 resolution: Some(Resolution {
                     width: 720,
                     height: 480,

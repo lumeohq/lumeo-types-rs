@@ -19,6 +19,9 @@ pub struct CommonVideoSourceProperties {
     /// - if source_type=='stream' then source_id is stream ID
     pub source_id: Uuid,
 
+    /// Name of video source.
+    pub source_name: String,
+
     /// Resolution of video source.
     /// If unset then some reasonable default is used.
     pub resolution: Option<Resolution>,
