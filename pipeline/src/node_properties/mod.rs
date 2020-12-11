@@ -34,6 +34,8 @@ pub use snapshot_properties::{
     CommonSnapshotProperties, LocalSnapshotProperties, LumeoCloudSnapshotProperties,
     SnapshotProperties,
 };
+pub mod track_properties;
+pub use track_properties::{TrackProperties, Tracker};
 pub mod function_properties;
 pub use function_properties::{FunctionProperties, FunctionRuntime};
 pub mod combine_properties;
@@ -58,6 +60,7 @@ pub enum NodeProperties {
     StreamRtspOut(StreamRtspOutProperties),
     #[serde(rename = "stream_webrtc_out")]
     StreamWebRtcOut(StreamWebRtcOutProperties),
+    Track(TrackProperties),
     Function(FunctionProperties),
     Combine(CombineProperties),
     Grid(GridProperties),
