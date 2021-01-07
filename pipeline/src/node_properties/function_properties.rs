@@ -1,8 +1,10 @@
 use serde::{Deserialize, Serialize};
+use serde_json::{Map, Value};
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct FunctionProperties {
     pub code: String,
+    pub props: Map<String, Value>,
     #[serde(flatten)]
     pub runtime: Option<FunctionRuntime>,
 }
