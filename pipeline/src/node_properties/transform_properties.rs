@@ -77,13 +77,14 @@ pub struct TransformProperties {
     pub resolution: Option<crate::Resolution>,
 
     /// Rotation angle in degrees.
-    pub rotate: Option<f64>,
+    pub rotation: Option<f64>,
 
     /// Flip direction.
-    pub flip: Option<FlipDirection>,
+    pub flip_direction: Option<FlipDirection>,
 
     /// Crop region.
-    pub crop: Option<Crop>,
+    #[serde(alias = "crop")]
+    pub crop_region: Option<Crop>,
 }
 
 #[cfg(test)]
@@ -99,9 +100,9 @@ mod test {
                 width: 640,
                 height: 480,
             }),
-            rotate: Some(88_f64),
-            flip: Some(FlipDirection::Vertical),
-            crop: Some(Crop {
+            rotation: Some(88_f64),
+            flip_direction: Some(FlipDirection::Vertical),
+            crop_region: Some(Crop {
                 top: 51,
                 bottom: 49,
                 left: 9,
