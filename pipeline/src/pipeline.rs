@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 use serde::de::{Deserialize, Deserializer, Error};
 use serde::ser::{Serialize, SerializeSeq, Serializer};
@@ -7,7 +7,7 @@ use crate::Node;
 
 #[derive(Default, Debug, Clone)]
 pub struct Pipeline {
-    nodes: HashMap<String, Node>,
+    nodes: BTreeMap<String, Node>,
 }
 
 impl Pipeline {

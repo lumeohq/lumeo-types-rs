@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 use std::str::FromStr;
 
 use serde::de::{Deserialize, Deserializer, MapAccess, Visitor};
@@ -33,11 +33,11 @@ pub struct SourcePad {
 }
 
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
-pub struct SourcePads(HashMap<String, SourcePad>);
+pub struct SourcePads(BTreeMap<String, SourcePad>);
 
 impl SourcePads {
     pub fn new() -> Self {
-        Self(HashMap::new())
+        Self(BTreeMap::new())
     }
 
     pub fn add(&mut self, pad: SourcePad) {
