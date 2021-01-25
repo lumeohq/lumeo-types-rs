@@ -15,6 +15,7 @@ pub enum DeploymentEventKind {
     StopFailed,
     ExitedUnexpectedly,
     GstError(GstError),
+    NodeLog(NodeLog),
 }
 
 #[derive(Serialize, Deserialize, Type, Debug, Clone)]
@@ -31,4 +32,11 @@ pub struct GstError {
     // FIXME: We probaly could do better than this and use an enum here.
     pub code: i32,
     pub description: String,
+}
+
+#[derive(Serialize, Deserialize, Type, Debug, Clone)]
+pub struct NodeLog {
+    // ID of the source node.
+    pub source: Option<String>,
+    pub msg: String,
 }
