@@ -36,7 +36,7 @@ pub struct GstError {
 
 #[derive(Serialize, Deserialize, Type, Debug, Clone)]
 pub struct NodeLog {
-    // ID of the source node.
-    pub source: Option<String>,
+    // ID of the source node. Enable it when we've means to set it.
+    //pub source: String,
     pub msg: String,
 }
