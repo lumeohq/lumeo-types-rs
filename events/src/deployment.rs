@@ -15,7 +15,7 @@ pub enum DeploymentEventKind {
     StopFailed,
     ExitedUnexpectedly,
     GstError(GstError),
-    NodeLog(NodeLog),
+    NodeLog(NodeLogs),
 }
 
 #[derive(Serialize, Deserialize, Type, Debug, Clone)]
@@ -39,4 +39,35 @@ pub struct NodeLog {
     // ID of the source node. Enable it when we've means to set it.
     //pub source: String,
     pub msg: String,
+}
+
+#[derive(Serialize, Deserialize, Type, Debug, Clone)]
+pub struct NodeLogs {
+    pub logs: Vec<NodeLog>,
+}
+
+impl NodeLogs {
+    pub fn bytes_len(&self) -> usize {
+        self.logs.iter().map(|log| log.msg.len()).sum()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn node_logs_len() {
+        let logs = NodeLogs {
+            logs: vec![
+                NodeLog {
+                    msg: "hi".to_string(),
+                },
+                NodeLog {
+                    msg: "there".to_string(),
+                },
+            ],
+        };
+        assert_eq!(logs.bytes_len(), 7);
+    }
 }
