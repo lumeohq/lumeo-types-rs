@@ -1,2 +1,2 @@
 [workspace]
-members = ["types", "events", "pipeline", "commands"]
+members = ["events", "pipeline", "commands"]
