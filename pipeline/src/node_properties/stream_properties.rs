@@ -16,8 +16,8 @@ pub trait StreamProperties {
 pub trait StreamRuntime {
     fn uri(&self) -> &url::Url;
     fn set_uri(&mut self, url: url::Url);
-    fn udp_port(&self) -> Option<u16>;
-    fn set_udp_port(&mut self, port: Option<u16>);
+    fn shm_path(&self) -> Option<&str>;
+    fn set_shm_path(&mut self, port: Option<String>);
     fn stream_id(&self) -> Uuid;
     fn set_stream_id(&mut self, stream_id: Uuid);
 }
@@ -46,12 +46,12 @@ macro_rules! impl_stream_props {
                 self.uri = uri
             }
 
-            fn udp_port(&self) -> Option<u16> {
-                self.udp_port
+            fn shm_path(&self) -> Option<&str> {
+                self.shm_path.as_deref()
             }
 
-            fn set_udp_port(&mut self, port: Option<u16>) {
-                self.udp_port = port;
+            fn set_shm_path(&mut self, port: Option<String>) {
+                self.shm_path = port;
             }
 
             fn stream_id(&self) -> uuid::Uuid {
