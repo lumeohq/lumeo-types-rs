@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::ffi::OsString;
 use url::Url;
 use uuid::Uuid;
 
@@ -20,13 +21,13 @@ pub struct StreamWebRtcOutRuntime {
     //       https://app.clubhouse.io/lumeo/story/940/set-correct-stream-url-for-pipeline-streams-created-for-webrtc-nodes
     pub uri: Url,
 
-    /// UDP port for `udpsink` element.
+    /// The path used for shared memory transfrom from runner to RTSP daemon.
     ///
-    /// This field is set to `Some` by `lumeod`.
+    /// This field is set to `Some` by `lumeod`
     ///
     /// Since pipeline can have multiple RTSP output streams we need to
-    /// distribute ports at `lumeod` level.
-    pub udp_port: Option<u16>,
+    /// create unix paths at `lumeod` level.
+    pub shm_path: Option<OsString>,
 
     /// Stream ID.
     ///
