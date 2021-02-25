@@ -35,7 +35,7 @@ pub use snapshot_properties::{
     SnapshotProperties,
 };
 pub mod track_properties;
-pub use track_properties::{TrackProperties, Tracker};
+pub use track_properties::{TrackProperties, Tracker, TrackerProfile};
 pub mod function_properties;
 pub use function_properties::{FunctionProperties, FunctionRuntime};
 pub mod combine_properties;
