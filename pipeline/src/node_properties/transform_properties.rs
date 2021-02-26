@@ -31,10 +31,10 @@ impl FromStr for Crop {
             [left, right, top, bottom] => {
                 match (left.parse(), right.parse(), top.parse(), bottom.parse()) {
                     (Ok(left), Ok(right), Ok(top), Ok(bottom)) => Ok(Crop {
-                        left,
-                        right,
                         top,
                         bottom,
+                        left,
+                        right,
                     }),
                     _ => Err(format!("Failed to parse crop region string: {}", s)),
                 }
