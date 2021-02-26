@@ -1,9 +1,10 @@
 use serde::{Deserialize, Serialize};
+use uuid::Uuid;
 use zvariant::derive::Type;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct Event {
-    pub deployment_id: String,
+    pub deployment_id: Uuid,
     pub event: DeploymentEventKind,
 }
 
