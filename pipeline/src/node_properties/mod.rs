@@ -20,7 +20,9 @@ pub use stream_web_rtc_out_properties::{StreamWebRtcOutProperties, StreamWebRtcO
 pub mod transform_properties;
 pub use transform_properties::{FlipDirection, TransformProperties};
 pub mod model_inference_properties;
-pub use model_inference_properties::{ModelInferenceProperties, ModelInferenceRuntime};
+pub use model_inference_properties::{
+    ModelInferenceProperties, ModelInferenceRuntime, PerClassThreshold,
+};
 pub mod metadata_inserter_properties;
 pub use metadata_inserter_properties::MetadataInserterProperties;
 pub mod overlay_properties;
