@@ -17,6 +17,10 @@ pub struct ModelInferenceProperties {
 
     #[serde(flatten)]
     pub runtime: Option<ModelInferenceRuntime>,
+
+    /// Vector containing the min inference threshold value for each class.
+    #[serde(default)]
+    pub classes_thresholds: Vec<PerClassThreshold>,
 }
 
 fn default_inference_interval() -> NonZeroU32 {
@@ -38,4 +42,13 @@ pub struct ModelInferenceRuntime {
     /// and for any other inferencing nodes it operates on.
     /// Map key is pipeline node id, val is unique id assigned to it at runtime.
     pub infer_node_unique_ids: Option<BTreeMap<String, i32>>,
+}
+
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct PerClassThreshold {
+    /// Use "all-classes" as class_label to define a global threshold for all the model's classes.
+    ///
+    /// Thresholds can also be set individually for every model's class label.
+    pub class_label: String,
+    pub min_threshold: f32,
 }
