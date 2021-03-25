@@ -2,12 +2,13 @@ pub use lumeo_events::camera::{Camera, LocalCamera};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use url::Url;
+use uuid::Uuid;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub enum Request {
     /// Discover cameras. Returned data can be incomplete if camera
     /// requires authorization. For authorized access use `GetWithAuth`.
-    Discover,
+    Discover { request_id: Uuid },
 
     /// Get local camera information
     GetLocal { url: Url },
