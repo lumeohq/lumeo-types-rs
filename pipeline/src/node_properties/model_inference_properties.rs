@@ -21,7 +21,7 @@ pub struct ModelInferenceProperties {
     /// Maps each class label (key) to the ClassInferenceProperties set.
     /// Use "*" as key to specify global properties that should affect all the model classes.
     #[serde(default)]
-    pub class_properties: BTreeMap<String, ClassInferenceProperties>,
+    pub class_properties: Option<BTreeMap<String, ClassInferenceProperties>>,
 }
 
 fn default_inference_interval() -> NonZeroU32 {
