@@ -10,6 +10,9 @@ pub enum Request {
     /// requires authorization. For authorized access use `GetWithAuth`.
     Discover { request_id: Uuid },
 
+    /// Create camera streams
+    CreateStreams { camera_id: Uuid },
+
     /// Get local camera information
     GetLocal { url: Url },
 
