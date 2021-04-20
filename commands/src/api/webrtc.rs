@@ -1,4 +1,9 @@
+use std::fmt;
+
 use serde::{Deserialize, Serialize};
+
+mod result_serde;
+use result_serde::{BoolResponseCompat, StructResponseCompat};
 
 /// WebRTC client -> server requests
 #[derive(Serialize, Deserialize, Debug)]
@@ -27,7 +32,7 @@ pub struct GetOfferRequest {
 /// Refer to https://developer.mozilla.org/en-US/docs/Web/API/RTCIceServer
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub struct IceServer {
-    /// ICE servers URL's array. Note that payload is not an URI, it's format is like "stun:stun.l.google.com:19302"  
+    /// ICE servers URL's array. Note that payload is not an URI, it's format is like "stun:stun.l.google.com:19302"
     pub urls: Vec<String>,
     /// Credential (TURN only)
     pub credential: Option<String>,
@@ -37,7 +42,12 @@ pub struct IceServer {
 
 /// Response on GetOfferRequest
 #[derive(Serialize, Deserialize, Debug)]
-pub struct GetOfferResponse {
+#[serde(from = "StructResponseCompat<Offer>")]
+pub struct GetOfferResponse(pub Result<Offer, WebRtcError>);
+
+/// Success result of GetOfferResponse
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Offer {
     /// Peer id identifier, should be user in all future calls
     peer_id: String,
     /// ICE servers settings for peer connection construction
@@ -62,7 +72,8 @@ pub struct SetAnswerRequest {
 
 /// Boolean response on SDP answer request
 #[derive(Serialize, Deserialize, Debug)]
-pub struct SetAnswerResponse(bool);
+#[serde(from = "BoolResponseCompat")]
+pub struct SetAnswerResponse(pub Result<(), WebRtcError>);
 
 /// ICE candidate.
 ///
@@ -86,7 +97,8 @@ pub struct AddCandidateRequest {
 
 /// Boolean response on set candidate request
 #[derive(Serialize, Deserialize, Debug)]
-pub struct AddCandidateResponse(bool);
+#[serde(from = "BoolResponseCompat")]
+pub struct AddCandidateResponse(pub Result<(), WebRtcError>);
 
 /// Get remote candidates list request
 #[derive(Serialize, Deserialize, Debug)]
@@ -97,7 +109,12 @@ pub struct GetCandidatesRequest {
 
 /// Response on get ICE candidates request
 #[derive(Serialize, Deserialize, Debug)]
-pub struct GetCandidatesResponse {
+#[serde(from = "StructResponseCompat<Candidates>")]
+pub struct GetCandidatesResponse(pub Result<Candidates, WebRtcError>);
+
+/// Success result of GetCandidatesResponse
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Candidates {
     /// Is the list complete flag
     /// Request MUST make another GetCandidatesRequest request till "completed" flag isn't true
     /// (poll for remote candidates)
@@ -115,7 +132,8 @@ pub struct HangUpRequest {
 
 /// Hang up response
 #[derive(Serialize, Deserialize, Debug)]
-pub struct HangUpResponse(bool);
+#[serde(from = "BoolResponseCompat")]
+pub struct HangUpResponse(pub Result<(), WebRtcError>);
 
 /// Responses from streamer
 #[derive(Serialize, Deserialize, Debug)]
@@ -126,3 +144,42 @@ pub enum Response {
     GetCandidates(GetCandidatesResponse),
     HangUp(HangUpResponse),
 }
+
+/// Error in handling of a WebRTC command
+#[derive(Serialize, Deserialize, Debug)]
+pub struct WebRtcError(Option<String>);
+
+impl fmt::Display for WebRtcError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match &self.0 {
+            Some(err) => f.write_str(&err),
+            // FIXME: Make the inner error string mandatory once we don't use
+            //        WebRTC-streamer anymore.
+            None => f.write_str("<no error message from WebRTC-streamer>"),
+        }
+    }
+}
+
+impl WebRtcError {
+    /// Create a WebRtcError with the given error message.
+    pub fn new(msg: String) -> Self {
+        Self(Some(msg))
+    }
+
+    /// Create a WebRtcError from the given error.
+    ///
+    /// Shorthand for `WebRtcError::new(err.to_string())`.
+    pub fn from_error(err: impl std::error::Error) -> Self {
+        Self(Some(err.to_string()))
+    }
+
+    /// Create a WebRtcError without a specific error message.
+    ///
+    /// Meant to be used when WebRTC-streamer returns null, false, or an object
+    /// without an error property where an object is not the expected response.
+    pub fn null() -> Self {
+        Self(None)
+    }
+}
+
+impl std::error::Error for WebRtcError {}
