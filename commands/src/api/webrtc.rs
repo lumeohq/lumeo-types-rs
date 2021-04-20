@@ -27,7 +27,7 @@ pub struct GetOfferRequest {
 /// Refer to https://developer.mozilla.org/en-US/docs/Web/API/RTCIceServer
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub struct IceServer {
-    /// ICE servers URL's array. Note that payload is not an URI, it's format is like "stun:stun.l.google.com:19302"  
+    /// ICE servers URL's array. Note that payload is not an URI, it's format is like "stun:stun.l.google.com:19302"
     pub urls: Vec<String>,
     /// Credential (TURN only)
     pub credential: Option<String>,
