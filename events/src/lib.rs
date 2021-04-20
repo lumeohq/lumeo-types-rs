@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 
-pub mod camera;
 pub mod deployment;
 pub mod gateway;
 
@@ -8,5 +7,4 @@ pub mod gateway;
 pub enum Event {
     Gateway(gateway::Event),
     Deployment(deployment::Event),
-    Camera(camera::Event),
 }
