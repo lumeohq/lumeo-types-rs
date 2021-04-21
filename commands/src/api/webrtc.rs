@@ -183,3 +183,55 @@ impl WebRtcError {
 }
 
 impl std::error::Error for WebRtcError {}
+
+#[cfg(test)]
+mod tests {
+    use super::{GetOfferResponse, IceServer, Offer, Response};
+    use serde_json::json;
+
+    #[test]
+    fn response_serialization() {
+        let res = Response::GetOffer(GetOfferResponse(Ok(Offer {
+            peer_id: "1927468303".into(),
+            ice_servers: vec![
+                IceServer {
+                    urls: vec!["stun:stun.l.google.com:19302".into()],
+                    credential: None,
+                    username: None,
+                },
+                IceServer {
+                    urls: vec!["turn:traverse.lumeo.com".into()],
+                    credential: Some("video".into()),
+                    username: Some("lumeo".into()),
+                },
+            ],
+            sdp: "...".into(),
+            r#type: "offer".into(),
+        })));
+
+        assert_eq!(
+            serde_json::to_value(res).unwrap(),
+            json!({
+                "GetOffer": {
+                    "Ok": {
+                        "peer_id": "1927468303",
+                        "iceServers": [
+                            {
+                                "urls": ["stun:stun.l.google.com:19302"],
+                                "credential": null,
+                                "username": null
+                            },
+                            {
+                                "urls": ["turn:traverse.lumeo.com"],
+                                "credential": "video",
+                                "username": "lumeo"
+                            }
+                        ],
+                        "sdp": "...",
+                        "type": "offer",
+                    }
+                }
+            })
+        );
+    }
+}
