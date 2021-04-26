@@ -1,3 +1,4 @@
+pub use gstreamer::{CoreError, LibraryError, ResourceError, StreamError};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 use zvariant::derive::Type;
@@ -20,19 +21,11 @@ pub enum DeploymentEventKind {
 }
 
 #[derive(Serialize, Deserialize, Type, Debug, Clone)]
-pub enum GstErrorDomain {
-    Core = 1,
-    Library = 2,
-    Resource = 3,
-    Stream = 4,
-}
-
-#[derive(Serialize, Deserialize, Type, Debug, Clone)]
-pub struct GstError {
-    pub domain: GstErrorDomain,
-    // FIXME: We probaly could do better than this and use an enum here.
-    pub code: i32,
-    pub description: String,
+pub enum GstError {
+    Core(CoreError),
+    Library(LibraryError),
+    Resource(ResourceError),
+    Stream(StreamError),
 }
 
 #[derive(Serialize, Deserialize, Type, Debug, Clone)]
