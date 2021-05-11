@@ -4,6 +4,7 @@ use uuid::Uuid;
 
 pub mod camera;
 pub mod deployment;
+pub mod snapshot;
 pub mod webrtc;
 
 /// Error types
@@ -54,6 +55,8 @@ pub enum Body {
     Camera(camera::Request),
     /// WebRTC subcommands collection
     WebRtc(webrtc::Request),
+    /// Snapshot commands
+    Snapshot(snapshot::Request),
 }
 
 impl Request {
