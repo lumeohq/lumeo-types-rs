@@ -1,6 +1,5 @@
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
-use uuid::Uuid;
 
 pub mod camera;
 pub mod deployment;
@@ -57,13 +56,4 @@ pub enum Body {
     WebRtc(webrtc::Request),
     /// Snapshot commands
     Snapshot(snapshot::Request),
-}
-
-impl Request {
-    pub fn new(body: Body) -> Self {
-        Request {
-            body,
-            respond_to: format!("resp/{}", Uuid::new_v4()),
-        }
-    }
 }
