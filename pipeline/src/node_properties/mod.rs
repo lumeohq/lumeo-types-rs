@@ -13,6 +13,8 @@ pub mod stream_properties;
 pub use stream_properties::{StreamProperties, StreamRuntime};
 pub mod encode_properties;
 pub use encode_properties::EncodeProperties;
+pub mod gst_template_properties;
+pub use gst_template_properties::GstTemplateProperties;
 pub mod stream_rtsp_out_properties;
 pub use stream_rtsp_out_properties::{StreamRtspOutProperties, StreamRtspOutRuntime};
 pub mod stream_web_rtc_out_properties;
@@ -64,6 +66,7 @@ pub enum NodeProperties {
     StreamWebRtcOut(StreamWebRtcOutProperties),
     Track(TrackProperties),
     Function(FunctionProperties),
+    GstTemplate(GstTemplateProperties),
     Combine(CombineProperties),
     Grid(GridProperties),
 }
