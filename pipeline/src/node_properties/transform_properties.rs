@@ -60,9 +60,9 @@ impl<'de> Deserialize<'de> for Crop {
     where
         D: serde::de::Deserializer<'de>,
     {
-        let s = <&str>::deserialize(deserializer)?;
+        let s = String::deserialize(deserializer)?;
 
-        Crop::from_str(s).map_err(serde::de::Error::custom)
+        Crop::from_str(&s).map_err(serde::de::Error::custom)
     }
 }
 
