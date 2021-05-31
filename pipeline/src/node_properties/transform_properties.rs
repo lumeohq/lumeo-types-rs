@@ -3,6 +3,7 @@ use serde_with::skip_serializing_none;
 use std::str::FromStr;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
 pub enum FlipDirection {
     Horizontal,
     Vertical,
