@@ -1,4 +1,7 @@
-use crate::resolution::Resolution;
+use crate::{
+    resolution::Resolution,
+    transform_properties::{Crop, FlipDirection},
+};
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_with::skip_serializing_none;
 use url::Url;
@@ -26,6 +29,37 @@ pub struct CommonVideoSourceProperties {
     /// Framerate of video source.
     /// If unset then some reasonable default is used.
     pub framerate: Option<u32>,
+
+    /// Rotate video source by arbitrary angle.
+    /// Does not change resolution but parts of the initial image can be left outside of the frame.
+    pub rotate: Option<f64>,
+
+    /// Rotate video source by 90/180/270 degrees.
+    /// Can change resolution but does not lose pixels.
+    pub rotate_fixed_angle: Option<RotateDirection>,
+
+    /// Flip video source.
+    pub flip: Option<FlipDirection>,
+
+    /// Crop video source.
+    /// Format: "left:right:top:bottom".
+    pub crop: Option<Crop>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum RotateDirection {
+    /// Rotate clockwise by 90 degrees.
+    /// Changes resolution, for example 640x480 becomes 480x640.
+    Clockwise90,
+
+    /// Rotate by 180 degrees.
+    #[serde(alias = "counter_clockwise180")]
+    Clockwise180,
+
+    /// Rotate counter-clockwise by 90 degrees.
+    /// Changes resolution, for example 640x480 becomes 480x640.
+    CounterClockwise90,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -114,6 +148,10 @@ impl<'de> Deserialize<'de> for CommonVideoSourceProperties {
             resolution: Option<Resolution>,
             framerate: Option<u32>,
             fps: Option<u32>,
+            rotate: Option<f64>,
+            rotate_fixed_angle: Option<RotateDirection>,
+            flip: Option<FlipDirection>,
+            crop: Option<Crop>,
         }
 
         let Helper {
@@ -121,12 +159,20 @@ impl<'de> Deserialize<'de> for CommonVideoSourceProperties {
             resolution,
             framerate,
             fps,
+            rotate,
+            rotate_fixed_angle,
+            flip,
+            crop,
         } = Deserialize::deserialize(deserializer)?;
 
         Ok(Self {
             source_id,
             resolution,
             framerate: framerate.or(fps),
+            rotate,
+            rotate_fixed_angle,
+            flip,
+            crop,
         })
     }
 }

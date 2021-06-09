@@ -5,8 +5,8 @@ use serde::{Deserialize, Serialize};
 pub mod video_source_properties;
 pub use video_source_properties::{
     CameraProperties, CameraRuntime, CommonVideoSourceProperties, InputRtspStreamRuntime,
-    InputStreamProperties, InputStreamRuntime, InputWebRtcStreamRuntime, UsbCameraRuntime,
-    VideoSourceProperties,
+    InputStreamProperties, InputStreamRuntime, InputWebRtcStreamRuntime, RotateDirection,
+    UsbCameraRuntime, VideoSourceProperties,
 };
 #[macro_use]
 pub mod stream_properties;
