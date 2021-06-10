@@ -16,8 +16,9 @@ mod tests {
     use url::Url;
 
     use crate::{
-        CameraProperties, CameraRuntime, CommonVideoSourceProperties, EncodeProperties,
-        StreamRtspOutProperties, StreamRtspOutRuntime, UsbCameraRuntime, VideoSourceProperties,
+        transform_properties::Crop, CameraProperties, CameraRuntime, CommonVideoSourceProperties,
+        EncodeProperties, FlipDirection, RotateDirection, StreamRtspOutProperties,
+        StreamRtspOutRuntime, UsbCameraRuntime, VideoSourceProperties,
     };
     use crate::{Node, NodeProperties, Pipeline, Resolution};
     use crate::{SinkPad, SourcePad, SourcePads};
@@ -35,6 +36,10 @@ mod tests {
                         "source_id": "00000000-0000-0000-0000-000000000000",
                         "framerate": 15,
                         "resolution": "720x480",
+                        "rotate": 30.0,
+                        "rotate_fixed_angle": "clockwise180",
+                        "flip": "vertical",
+                        "crop": "30:40:10:20",
                         "usb": {
                             "uri": "file:///dev/video0",
                             "name": "Qwerty 3000",
@@ -156,6 +161,15 @@ mod tests {
                     height: 480,
                 }),
                 framerate: Some(15),
+                rotate: Some(30.0),
+                rotate_fixed_angle: Some(RotateDirection::Clockwise180),
+                flip: Some(FlipDirection::Vertical),
+                crop: Some(Crop {
+                    top: 10,
+                    bottom: 20,
+                    left: 30,
+                    right: 40,
+                }),
             },
             runtime: Some(CameraRuntime::Usb(UsbCameraRuntime {
                 uri: Url::from_str("file:///dev/video0").unwrap(),
