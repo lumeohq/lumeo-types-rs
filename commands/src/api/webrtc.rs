@@ -49,10 +49,10 @@ pub struct GetOfferResponse(pub Result<Offer, WebRtcError>);
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Offer {
     /// Peer id identifier, should be user in all future calls
-    peer_id: String,
+    pub peer_id: String,
     /// ICE servers settings for peer connection construction
     #[serde(rename = "iceServers")]
-    ice_servers: Vec<IceServer>,
+    pub ice_servers: Vec<IceServer>,
     /// SDP payload
     pub sdp: String,
     /// SDP type
@@ -81,9 +81,9 @@ pub struct SetAnswerResponse(pub Result<(), WebRtcError>);
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
 pub struct IceCandidate {
-    candidate: String,
-    sdp_m_line_index: u32,
-    sdp_mid: String,
+    pub candidate: String,
+    pub sdp_m_line_index: u32,
+    pub sdp_mid: String,
 }
 
 /// Set ICE candidate request
@@ -118,9 +118,9 @@ pub struct Candidates {
     /// Is the list complete flag
     /// Request MUST make another GetCandidatesRequest request till "completed" flag isn't true
     /// (poll for remote candidates)
-    completed: bool,
+    pub completed: bool,
     /// Remote ICE candidates list, every entry must be appended to the client's peer connection
-    candidates: Vec<IceCandidate>,
+    pub candidates: Vec<IceCandidate>,
 }
 
 /// Hang up request
