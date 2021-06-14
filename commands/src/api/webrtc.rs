@@ -152,7 +152,7 @@ pub struct WebRtcError(Option<String>);
 impl fmt::Display for WebRtcError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match &self.0 {
-            Some(err) => f.write_str(&err),
+            Some(err) => f.write_str(err),
             // FIXME: Make the inner error string mandatory once we don't use
             //        WebRTC-streamer anymore.
             None => f.write_str("<no error message from WebRTC-streamer>"),
