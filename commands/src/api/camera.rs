@@ -194,7 +194,7 @@ fn basic_de() {
         "capabilities": []
     }"#;
 
-    let actual: Camera = serde_json::from_str(&json).unwrap();
+    let actual: Camera = serde_json::from_str(json).unwrap();
 
     let expected = Camera::Local(LocalCamera {
         uri: "file:///dev/video0".parse().unwrap(),
