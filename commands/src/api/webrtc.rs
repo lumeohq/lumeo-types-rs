@@ -67,7 +67,7 @@ pub struct SetAnswerRequest {
     /// SDP type
     pub r#type: String,
     /// peer id (received from URL)
-    pub peer_id: Option<String>,
+    pub peer_id: String,
 }
 
 /// Boolean response on SDP answer request
@@ -92,7 +92,7 @@ pub struct AddCandidateRequest {
     /// ICE candidate
     pub candidate: IceCandidate,
     /// peer id (received from URL)
-    pub peer_id: Option<String>,
+    pub peer_id: String,
 }
 
 /// Boolean response on set candidate request
