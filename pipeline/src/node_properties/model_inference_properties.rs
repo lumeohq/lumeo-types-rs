@@ -51,12 +51,13 @@ pub struct ModelInferenceRuntime {
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct ClassInferenceProperties {
     /// Minimum inference threshold, should be set on the [0.0, 1.0] interval.
-    pub min_inference_threshold: f32,
-    /// Relative difference between sides of the rectangles to merge them into a group
-    /// Used in OpenCV groupRectangles function and DBSCAN algorithm
+    pub min_inference_threshold: Option<f32>,
+    /// Relative difference between sides of the rectangles to merge them into a group.
+    ///
+    /// Used in OpenCV groupRectangles function and DBSCAN algorithm.
     pub eps: Option<f32>,
-    /// Minimum size (WidthxHeight format) in pixels to consider a detected object
+    /// Minimum size (WidthxHeight format) in pixels to consider a detected object.
     pub object_min_size: Option<Resolution>,
-    /// Maximum size (WidthxHeight format) in pixels to consider a detected object
+    /// Maximum size (WidthxHeight format) in pixels to consider a detected object.
     pub object_max_size: Option<Resolution>,
 }
