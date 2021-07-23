@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 pub mod clip_properties;
 pub mod combine_properties;
+pub mod demultiplex_properties;
 pub mod encode_properties;
 pub mod function_properties;
 pub mod grid_properties;
@@ -24,6 +25,7 @@ pub use clip_properties::{
     ClipProperties, CommonClipProperties, LocalClipProperties, LumeoCloudClipProperties,
 };
 pub use combine_properties::CombineProperties;
+pub use demultiplex_properties::DemultiplexProperties;
 pub use encode_properties::EncodeProperties;
 pub use function_properties::{FunctionProperties, FunctionRuntime};
 pub use grid_properties::GridProperties;
@@ -54,6 +56,7 @@ pub use video_source_properties::{
 pub enum NodeProperties {
     Clip(ClipProperties),
     Combine(CombineProperties),
+    Demultiplex(DemultiplexProperties),
     Encode(EncodeProperties),
     Function(FunctionProperties),
     Grid(GridProperties),
