@@ -3,7 +3,6 @@
 use serde::{Deserialize, Serialize};
 
 pub mod clip_properties;
-pub mod combine_properties;
 pub mod demultiplex_properties;
 pub mod encode_properties;
 pub mod function_properties;
@@ -11,6 +10,7 @@ pub mod grid_properties;
 pub mod gst_template_properties;
 pub mod metadata_inserter_properties;
 pub mod model_inference_properties;
+pub mod multiplex_properties;
 pub mod overlay_properties;
 pub mod snapshot_properties;
 #[macro_use]
@@ -24,7 +24,6 @@ pub mod video_source_properties;
 pub use clip_properties::{
     ClipProperties, CommonClipProperties, LocalClipProperties, LumeoCloudClipProperties,
 };
-pub use combine_properties::CombineProperties;
 pub use demultiplex_properties::DemultiplexProperties;
 pub use encode_properties::EncodeProperties;
 pub use function_properties::{FunctionProperties, FunctionRuntime};
@@ -34,6 +33,7 @@ pub use metadata_inserter_properties::MetadataInserterProperties;
 pub use model_inference_properties::{
     ClassInferenceProperties, ModelInferenceProperties, ModelInferenceRuntime,
 };
+pub use multiplex_properties::MultiplexProperties;
 pub use overlay_properties::OverlayProperties;
 pub use snapshot_properties::{
     CommonSnapshotProperties, LocalSnapshotProperties, LumeoCloudSnapshotProperties,
@@ -55,7 +55,6 @@ pub use video_source_properties::{
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum NodeProperties {
     Clip(ClipProperties),
-    Combine(CombineProperties),
     Demultiplex(DemultiplexProperties),
     Encode(EncodeProperties),
     Function(FunctionProperties),
@@ -64,6 +63,7 @@ pub enum NodeProperties {
     #[serde(rename = "metadata_add")]
     MetadataInserter(MetadataInserterProperties),
     ModelInference(ModelInferenceProperties),
+    Multiplex(MultiplexProperties),
     Overlay(OverlayProperties),
     Snapshot(SnapshotProperties),
     StreamRtspOut(StreamRtspOutProperties),
