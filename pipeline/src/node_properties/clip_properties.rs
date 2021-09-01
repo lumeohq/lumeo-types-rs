@@ -19,6 +19,21 @@ pub struct CommonClipProperties {
     pub retention_duration: Option<u64>,
     pub webhook_url: Option<Url>,
     pub trigger: Option<String>,
+    #[serde(default)]
+    pub trigger_mode: TriggerMode,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[serde(rename_all = "snake_case")]
+pub enum TriggerMode {
+    Exact,
+    FixedDuration,
+}
+
+impl Default for TriggerMode {
+    fn default() -> Self {
+        TriggerMode::Exact
+    }
 }
 
 #[skip_serializing_none]
