@@ -1,3 +1,15 @@
+#![warn(
+    rust_2018_idioms,
+    unused_qualifications,
+    clippy::cloned_instead_of_copied,
+    clippy::dbg_macro,
+    clippy::str_to_string,
+    clippy::todo,
+    clippy::unreadable_literal,
+    clippy::unseparated_literal_suffix,
+    clippy::wildcard_imports
+)]
+
 pub mod node;
 pub mod node_properties;
 pub mod pad;
@@ -57,7 +69,7 @@ mod tests {
                     "properties": {
                         "type": "encode",
                         "codec": "h264",
-                        "max_bitrate": 1500000,
+                        "max_bitrate": 1_500_000,
                         "quality": 10,
                         "fps": 15
                     },
@@ -159,14 +171,14 @@ mod tests {
             },
             runtime: Some(CameraRuntime::Usb(UsbCameraRuntime {
                 uri: Url::from_str("file:///dev/video0").unwrap(),
-                name: "Qwerty 3000".to_string(),
+                name: "Qwerty 3000".into(),
             })),
         }))
     }
 
     fn encode_properties() -> NodeProperties {
         NodeProperties::Encode(EncodeProperties {
-            codec: "h264".to_string(),
+            codec: "h264".into(),
             max_bitrate: Some(1_500_000),
             bitrate: None,
             quality: Some(10),

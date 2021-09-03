@@ -12,11 +12,7 @@ pub struct Node {
 
 impl Node {
     pub fn new(id: &str, properties: NodeProperties, source_pads: Option<SourcePads>) -> Self {
-        Self {
-            id: id.to_string(),
-            properties,
-            source_pads: source_pads.unwrap_or_else(SourcePads::new),
-        }
+        Self { id: id.into(), properties, source_pads: source_pads.unwrap_or_else(SourcePads::new) }
     }
 
     pub fn id(&self) -> &str {

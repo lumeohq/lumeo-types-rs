@@ -17,8 +17,8 @@ impl FromStr for SinkPad {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.split('.').collect::<Vec<_>>()[..] {
-            [node, name] => Ok(SinkPad { node: node.to_string(), name: name.to_string() }),
-            _ => Err("Bad pad format".to_string()),
+            [node, name] => Ok(SinkPad { node: node.into(), name: name.into() }),
+            _ => Err("Bad pad format".into()),
         }
     }
 }
@@ -96,7 +96,7 @@ struct SourcePadsVisitor;
 impl<'de> Visitor<'de> for SourcePadsVisitor {
     type Value = SourcePads;
 
-    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+    fn expecting(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         formatter.write_str("a node's source pad")
     }
 

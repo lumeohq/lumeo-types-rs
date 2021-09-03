@@ -18,7 +18,7 @@ impl Pipeline {
     }
 
     pub fn add_node(&mut self, node: Node) {
-        self.nodes.insert(node.id().to_string(), node);
+        self.nodes.insert(node.id().into(), node);
     }
 
     pub fn nodes(&self) -> impl Iterator<Item = &Node> {
