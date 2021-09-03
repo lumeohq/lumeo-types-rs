@@ -1,11 +1,12 @@
-use crate::{
-    resolution::Resolution,
-    transform_properties::{Crop, FlipDirection},
-};
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_with::skip_serializing_none;
 use url::Url;
 use uuid::Uuid;
+
+use crate::{
+    resolution::Resolution,
+    transform_properties::{Crop, FlipDirection},
+};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "source_type", rename_all = "snake_case")]

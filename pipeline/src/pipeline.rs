@@ -1,7 +1,9 @@
 use std::collections::BTreeMap;
 
-use serde::de::{Deserialize, Deserializer, Error};
-use serde::ser::{Serialize, SerializeSeq, Serializer};
+use serde::{
+    de::{Deserialize, Deserializer, Error},
+    ser::{Serialize, SerializeSeq, Serializer},
+};
 
 use crate::Node;
 

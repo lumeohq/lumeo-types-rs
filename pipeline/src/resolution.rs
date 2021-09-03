@@ -1,6 +1,9 @@
-use serde::de::{Deserialize, Deserializer, Error};
-use serde::ser::{Serialize, Serializer};
 use std::str::FromStr;
+
+use serde::{
+    de::{Deserialize, Deserializer, Error},
+    ser::{Serialize, Serializer},
+};
 
 #[derive(Default, Debug, Clone, PartialEq)]
 pub struct Resolution {

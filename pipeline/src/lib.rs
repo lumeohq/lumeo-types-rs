@@ -13,16 +13,16 @@ pub use resolution::*;
 #[cfg(test)]
 mod tests {
     use std::str::FromStr;
+
     use url::Url;
+    use uuid::Uuid;
 
     use crate::{
         transform_properties::Crop, CameraProperties, CameraRuntime, CommonVideoSourceProperties,
-        EncodeProperties, FlipDirection, RotateDirection, StreamRtspOutProperties,
+        EncodeProperties, FlipDirection, Node, NodeProperties, Pipeline, Resolution,
+        RotateDirection, SinkPad, SourcePad, SourcePads, StreamRtspOutProperties,
         StreamRtspOutRuntime, UsbCameraRuntime, VideoSourceProperties,
     };
-    use crate::{Node, NodeProperties, Pipeline, Resolution};
-    use crate::{SinkPad, SourcePad, SourcePads};
-    use uuid::Uuid;
 
     #[test]
     fn pipeline_nodes_de() {
@@ -93,15 +93,9 @@ mod tests {
         let mut pads = SourcePads::new();
         pads.add(SourcePad {
             name: String::from("video"),
-            sinks: vec![SinkPad {
-                node: String::from("encode1"),
-                name: String::from("input"),
-            }],
+            sinks: vec![SinkPad { node: String::from("encode1"), name: String::from("input") }],
         });
-        pads.add(SourcePad {
-            name: String::from("snapshot"),
-            sinks: vec![],
-        });
+        pads.add(SourcePad { name: String::from("snapshot"), sinks: vec![] });
         let node = Node::new("video1", video_properties(), Some(pads));
         pipeline.add_node(node);
 
@@ -156,20 +150,12 @@ mod tests {
         NodeProperties::VideoSource(VideoSourceProperties::Camera(CameraProperties {
             common: CommonVideoSourceProperties {
                 source_id: Uuid::nil(),
-                resolution: Some(Resolution {
-                    width: 720,
-                    height: 480,
-                }),
+                resolution: Some(Resolution { width: 720, height: 480 }),
                 framerate: Some(15),
                 rotate: Some(30.0),
                 rotate_fixed_angle: Some(RotateDirection::Clockwise180),
                 flip: Some(FlipDirection::Vertical),
-                crop: Some(Crop {
-                    top: 10,
-                    bottom: 20,
-                    left: 30,
-                    right: 40,
-                }),
+                crop: Some(Crop { top: 10, bottom: 20, left: 30, right: 40 }),
             },
             runtime: Some(CameraRuntime::Usb(UsbCameraRuntime {
                 uri: Url::from_str("file:///dev/video0").unwrap(),

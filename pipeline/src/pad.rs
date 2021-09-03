@@ -1,9 +1,9 @@
-use std::collections::BTreeMap;
-use std::str::FromStr;
+use std::{collections::BTreeMap, str::FromStr};
 
-use serde::de::{Deserialize, Deserializer, MapAccess, Visitor};
-use serde::de::{Error, Unexpected};
-use serde::ser::{Serialize, SerializeMap, Serializer};
+use serde::{
+    de::{Deserialize, Deserializer, Error, MapAccess, Unexpected, Visitor},
+    ser::{Serialize, SerializeMap, Serializer},
+};
 
 #[derive(Default, Debug, Clone, PartialEq, Eq, Hash)]
 pub struct SinkPad {
@@ -17,10 +17,7 @@ impl FromStr for SinkPad {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s.split('.').collect::<Vec<_>>()[..] {
-            [node, name] => Ok(SinkPad {
-                node: node.to_string(),
-                name: name.to_string(),
-            }),
+            [node, name] => Ok(SinkPad { node: node.to_string(), name: name.to_string() }),
             _ => Err("Bad pad format".to_string()),
         }
     }
@@ -110,10 +107,7 @@ impl<'de> Visitor<'de> for SourcePadsVisitor {
         let mut pads = SourcePads::new();
         while let Some(name) = map.next_key::<String>()? {
             let sinks = map.next_value::<Vec<String>>()?;
-            let mut pad = SourcePad {
-                name,
-                sinks: vec![],
-            };
+            let mut pad = SourcePad { name, sinks: vec![] };
             for sink in sinks {
                 let sink_pad = SinkPad::from_str(&sink).map_err(|_| {
                     Error::invalid_value(Unexpected::Str(&sink), &"NODE_ID.SINK_PAD_NAME")

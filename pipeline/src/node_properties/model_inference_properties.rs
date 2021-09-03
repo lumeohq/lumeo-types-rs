@@ -1,9 +1,10 @@
-use crate::Resolution;
+use std::{collections::BTreeMap, num::NonZeroU32};
+
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use std::collections::BTreeMap;
-use std::num::NonZeroU32;
 use uuid::Uuid;
+
+use crate::Resolution;
 
 #[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
 pub struct ModelInferenceProperties {

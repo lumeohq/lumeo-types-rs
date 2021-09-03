@@ -68,14 +68,7 @@ mod tests {
     #[test]
     fn node_logs_len() {
         let logs = NodeLogs {
-            logs: vec![
-                NodeLog {
-                    msg: "hi".to_string(),
-                },
-                NodeLog {
-                    msg: "there".to_string(),
-                },
-            ],
+            logs: vec![NodeLog { msg: "hi".to_string() }, NodeLog { msg: "there".to_string() }],
         };
         assert_eq!(logs.bytes_len(), 7);
     }

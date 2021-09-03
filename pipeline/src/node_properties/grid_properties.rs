@@ -1,6 +1,7 @@
-use crate::Resolution;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
+
+use crate::Resolution;
 
 #[skip_serializing_none]
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]

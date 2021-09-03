@@ -1,9 +1,10 @@
 //! Interleave two or more streams and create a single "multiplexed" stream, to optimize processing.
 //! Also resizes all frames to specified output resolution.
 
-use crate::Resolution;
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
+
+use crate::Resolution;
 
 #[skip_serializing_none]
 #[derive(Debug, Default, Clone, PartialEq, Serialize, Deserialize)]

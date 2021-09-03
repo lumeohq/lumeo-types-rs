@@ -1,6 +1,7 @@
+use std::str::FromStr;
+
 use serde::{Deserialize, Serialize};
 use serde_with::skip_serializing_none;
-use std::str::FromStr;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -31,12 +32,9 @@ impl FromStr for Crop {
         match s.split(':').collect::<Vec<_>>()[..] {
             [left, right, top, bottom] => {
                 match (left.parse(), right.parse(), top.parse(), bottom.parse()) {
-                    (Ok(left), Ok(right), Ok(top), Ok(bottom)) => Ok(Crop {
-                        top,
-                        bottom,
-                        left,
-                        right,
-                    }),
+                    (Ok(left), Ok(right), Ok(top), Ok(bottom)) => {
+                        Ok(Crop { top, bottom, left, right })
+                    }
                     _ => Err(format!("Failed to parse crop region string: {}", s)),
                 }
             }
@@ -90,25 +88,18 @@ pub struct TransformProperties {
 
 #[cfg(test)]
 mod test {
-    use super::{Crop, FlipDirection, TransformProperties};
     use serde_json::{from_str, to_string};
+
+    use super::{Crop, FlipDirection, TransformProperties};
 
     #[test]
     fn transform() {
         let t = TransformProperties {
             framerate: Some(15),
-            resolution: Some(crate::Resolution {
-                width: 640,
-                height: 480,
-            }),
+            resolution: Some(crate::Resolution { width: 640, height: 480 }),
             rotation: Some(88_f64),
             flip_direction: Some(FlipDirection::Vertical),
-            crop_region: Some(Crop {
-                top: 51,
-                bottom: 49,
-                left: 9,
-                right: 1,
-            }),
+            crop_region: Some(Crop { top: 51, bottom: 49, left: 9, right: 1 }),
         };
 
         let s = to_string(&t).unwrap();
