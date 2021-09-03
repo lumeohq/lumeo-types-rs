@@ -5,13 +5,28 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  schedule:
+    # every monday at 3AM (UTC?)
+    - cron: '0 3 * * 1'
 
 jobs:
-  cargo-deny:
+  bans-licenses-sources:
+    name: Bans, Licenses, Sources
     runs-on: ubuntu-latest
+    if: github.event.name != schedule
 
     steps:
       - uses: actions/checkout@v2
       - uses: EmbarkStudios/cargo-deny-action@v1
         with:
           command: check bans licenses sources
+
+  advisories:
+    name: Advisories
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: EmbarkStudios/cargo-deny-action@v1
+        with:
+          command: check advisories
