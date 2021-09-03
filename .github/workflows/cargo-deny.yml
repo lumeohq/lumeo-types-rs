@@ -13,7 +13,7 @@ jobs:
   bans-licenses-sources:
     name: Bans, Licenses, Sources
     runs-on: ubuntu-latest
-    if: github.event.name != schedule
+    if: github.event.name != 'schedule'
 
     steps:
       - uses: actions/checkout@v2
