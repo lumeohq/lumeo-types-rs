@@ -38,11 +38,11 @@ macro_rules! impl_stream_props {
         }
 
         impl crate::StreamRuntime for $runtime {
-            fn uri(&self) -> &url::Url {
+            fn uri(&self) -> &Url {
                 &self.uri
             }
 
-            fn set_uri(&mut self, uri: url::Url) {
+            fn set_uri(&mut self, uri: Url) {
                 self.uri = uri
             }
 
@@ -54,11 +54,11 @@ macro_rules! impl_stream_props {
                 self.udp_port = port;
             }
 
-            fn stream_id(&self) -> uuid::Uuid {
+            fn stream_id(&self) -> Uuid {
                 self.stream_id
             }
 
-            fn set_stream_id(&mut self, stream_id: uuid::Uuid) {
+            fn set_stream_id(&mut self, stream_id: Uuid) {
                 self.stream_id = stream_id;
             }
         }

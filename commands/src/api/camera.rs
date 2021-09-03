@@ -199,7 +199,7 @@ fn basic_de() {
     let expected = Camera::Local(LocalCamera {
         uri: "file:///dev/video0".parse().unwrap(),
         status: Status::Online,
-        name: Some("Entrance #4".to_string()),
+        name: Some("Entrance #4".into()),
         manufacturer: None,
         model: None,
         interface: LocalCameraInterface::Usb,

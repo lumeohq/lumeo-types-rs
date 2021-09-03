@@ -18,7 +18,7 @@ impl FromStr for Resolution {
         match s.split('x').collect::<Vec<_>>()[..] {
             [width, height] => match (width.parse(), height.parse()) {
                 (Ok(width), Ok(height)) => Ok(Resolution { width, height }),
-                _ => Err("Resolution must be a number".to_string()),
+                _ => Err("Resolution must be a number".into()),
             },
             _ => Err(format!("Bad resolution format: {}", s)),
         }
