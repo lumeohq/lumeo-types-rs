@@ -186,8 +186,9 @@ impl std::error::Error for WebRtcError {}
 
 #[cfg(test)]
 mod tests {
-    use super::{GetOfferResponse, IceServer, Offer, Response};
     use serde_json::json;
+
+    use super::{GetOfferResponse, IceServer, Offer, Response};
 
     #[test]
     fn response_serialization() {
