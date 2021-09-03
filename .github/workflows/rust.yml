@@ -7,19 +7,33 @@ on:
     branches: [main]
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - run: rustup component add rustfmt-preview
-    - run: rustup component add clippy-preview
+    - uses: actions-rs/toolchain@v1
+      with:
+          toolchain: stable
+          default: true
+          profile: minimal
     - name: Build
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+          toolchain: nightly
+          default: true
+          profile: minimal
+          components: clippy, rustfmt
+    - name: Catch common mistakes and unwrap calls
+      run: cargo clippy --all-targets -- -Dwarnings
     - name: Check formatting
       run: cargo fmt -- --check
-    - name: Catch common mistakes
-      run: cargo clippy --tests -- -D warnings
