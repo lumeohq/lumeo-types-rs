@@ -55,6 +55,9 @@ pub struct RemoteCamera {
     /// for example `http://192.168.0.42/device`
     pub uri: Url,
 
+    /// MAC address
+    pub mac_address: String,
+
     /// Status
     pub status: Status,
 
@@ -69,9 +72,6 @@ pub struct RemoteCamera {
 
     /// Local IP address
     pub ip_local: Option<String>,
-
-    /// MAC address
-    pub mac_address: Option<String>,
 
     /// List of camera streams
     pub streams: Vec<Stream>,
