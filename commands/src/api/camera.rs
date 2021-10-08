@@ -22,8 +22,7 @@ pub enum Camera {
     Remote(RemoteCamera),
 }
 
-/// `LocalCamera` type represents cameras connected directly to
-/// the edge device via USB or CSI.
+/// `LocalCamera` type represents cameras connected directly to the edge gateway via USB or CSI.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 pub struct LocalCamera {
     /// URI to access camera, for example `file:///dev/video0`
