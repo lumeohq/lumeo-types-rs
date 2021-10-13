@@ -1,3 +1,7 @@
 [workspace]
-members = ["pipeline", "commands"]
+members = ["commands", "pipeline", "xtask"]
+# By default, compile everything except xtask, which should only be compiled
+# when explicitly invoked.
+default-members = ["commands", "pipeline"]
+
 resolver = "2"
