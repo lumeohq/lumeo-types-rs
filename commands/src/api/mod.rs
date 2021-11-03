@@ -56,4 +56,6 @@ pub enum Body {
     WebRtc(webrtc::Request),
     /// Snapshot commands
     Snapshot(snapshot::Request),
+    /// Delete gateway command
+    DeleteGateway,
 }
