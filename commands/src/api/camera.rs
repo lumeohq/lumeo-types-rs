@@ -9,6 +9,9 @@ pub enum Request {
 
     /// Create camera streams
     CreateStreams { camera_id: Uuid },
+
+    /// Fetch camera details from physical camera and update the camera
+    UpdateDetails { camera_id: Uuid },
 }
 
 /// `Camera` type represents different camera types.
