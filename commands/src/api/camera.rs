@@ -118,6 +118,7 @@ pub struct Fraction {
 pub enum Status {
     Online,
     Offline,
+    Unauthorized,
 }
 
 /// Local camera interface.
