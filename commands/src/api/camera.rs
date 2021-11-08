@@ -11,9 +11,6 @@ pub enum Request {
     CreateStreams { camera_id: Uuid },
 }
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct DiscoverResponse(pub Vec<Camera>);
-
 /// `Camera` type represents different camera types.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
 #[serde(tag = "conn_type", rename_all = "snake_case")]
