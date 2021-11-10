@@ -9,10 +9,10 @@ pub enum Request {
 
     /// Create camera streams
     CreateStreams { camera_id: Uuid },
-}
 
-#[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct DiscoverResponse(pub Vec<Camera>);
+    /// Fetch camera details from physical camera and update the camera
+    UpdateDetails { camera_id: Uuid },
+}
 
 /// `Camera` type represents different camera types.
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
@@ -121,6 +121,7 @@ pub struct Fraction {
 pub enum Status {
     Online,
     Offline,
+    Unauthorized,
 }
 
 /// Local camera interface.
