@@ -1,10 +1,14 @@
+use std::num::NonZeroU32;
+
 use serde::{Deserialize, Serialize};
+use serde_with::skip_serializing_none;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct TrackProperties {
     pub tracker: Tracker,
     #[serde(default)]
     pub profile: TrackerProfile,
+    pub custom_properties: Option<TrackerCustomProperties>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -31,10 +35,24 @@ pub enum TrackerProfile {
 
     /// If available for this tracker type, loads a configuration tuned for stationary objects
     Stationary,
+
+    /// Configuration tweaked by user
+    Custom,
 }
 
 impl Default for TrackerProfile {
     fn default() -> Self {
         TrackerProfile::Default
     }
+}
+
+#[skip_serializing_none]
+#[derive(Clone, Debug, Deserialize, PartialEq, Serialize)]
+pub struct TrackerCustomProperties {
+    /// NvDCF - used with 'Custom' TrackerProfile
+    ///
+    /// Min Intersection over Union (IoU) difference to existing tracks for discarding a new track.
+    pub min_iou_diff: Option<f32>,
+    /// Number of initial consecutive frames until the track is considered to be valid.
+    pub activation_age: Option<NonZeroU32>,
 }
