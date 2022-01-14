@@ -46,8 +46,11 @@ pub struct Notification {
 /// API message body payloads
 #[derive(Debug, Serialize, Deserialize)]
 pub enum Body {
-    /// Start pipeline deployment
+    // TODO: Remove the comment about restart once all deployed lumeod instances support `RestartDeployment`
+    /// Start pipeline deployment (also triggers restarts on lumeod instances that don't support `RestartDeployment` yet)
     StartDeployment(deployment::StartDeployment),
+    /// Restart pipeline deployment
+    RestartDeployment(deployment::RestartDeployment),
     /// Stop deployment
     StopDeployment(deployment::StopDeployment),
     /// Camera commands
