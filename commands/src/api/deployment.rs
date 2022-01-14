@@ -10,6 +10,15 @@ pub struct StartDeployment {
     pub pipeline: String,
 }
 
+/// Restart deployment payload
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RestartDeployment {
+    /// Deployment ID
+    pub id: Uuid,
+    /// Pipeline description
+    pub pipeline: String,
+}
+
 /// Stop deployment payload
 #[derive(Debug, Serialize, Deserialize)]
 pub struct StopDeployment {
