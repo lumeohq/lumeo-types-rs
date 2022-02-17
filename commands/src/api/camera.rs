@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use strum::AsRefStr;
+use strum::{AsRefStr, Display};
 use url::Url;
 use uuid::Uuid;
 
@@ -117,7 +117,7 @@ pub struct Fraction {
 }
 
 /// Camera status.
-#[derive(Serialize, Deserialize, AsRefStr, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, AsRefStr, Display, Debug, Clone, PartialEq)]
 #[serde(rename_all = "snake_case")]
 #[strum(serialize_all = "snake_case")]
 pub enum Status {
