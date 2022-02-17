@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use strum::AsRefStr;
 use url::Url;
 use uuid::Uuid;
 
@@ -116,8 +117,9 @@ pub struct Fraction {
 }
 
 /// Camera status.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
+#[derive(Serialize, Deserialize, AsRefStr, Debug, Clone, PartialEq)]
 #[serde(rename_all = "snake_case")]
+#[strum(serialize_all = "snake_case")]
 pub enum Status {
     Online,
     Offline,
@@ -207,4 +209,11 @@ fn basic_de() {
     });
 
     assert_eq!(actual, expected);
+}
+
+#[test]
+fn status_to_string() {
+    assert_eq!(Status::Offline.as_ref(), "offline");
+    assert_eq!(Status::Online.as_ref(), "online");
+    assert_eq!(Status::Unauthorized.as_ref(), "unauthorized");
 }
