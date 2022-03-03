@@ -1,3 +1,4 @@
+use num_rational::Rational32;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display};
 use url::Url;
@@ -103,17 +104,10 @@ pub struct Capability {
     pub height: i32,
 
     /// List of supported framerates
-    pub framerates: Vec<Fraction>,
+    pub framerates: Vec<Rational32>,
 
     /// Video format, "MJPG", "YUYV", etc.
     pub format: Option<String>,
-}
-
-/// Type representing rational number.
-#[derive(Serialize, Deserialize, Debug, Clone, PartialEq)]
-pub struct Fraction {
-    pub numer: i32,
-    pub denom: i32,
 }
 
 /// Camera status.
