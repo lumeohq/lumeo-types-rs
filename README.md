@@ -1,3 +1,7 @@
+This repo is archived. Please, use https://github.com/lumeohq/api-client instead.
+
+MQTT commands can be found [here](https://github.com/lumeohq/api-client/blob/main/lumeo_api_client/src/commands.rs).
+
 # lumeo-types-rs
 
 This is the host repository for all common API crates.
